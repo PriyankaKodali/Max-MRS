@@ -10,6 +10,7 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { MyAjaxForAttachments, MyAjax } from '../MyAjax';
 
+
 var validate = require('validate.js');
 var moment = require('moment');
 
@@ -18,21 +19,44 @@ class EmployeeRegistration extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            Country: null, Countries: [], State: null, States: [], EmpType: null, Department: null,
+            Country: null, Employee: [], Countries: [], State: null, States: [], EmpType: null, Department: null,
             Departments: [], Designation: null, Designations: [], Role: null, Roles: [], Gender: null,
-            BloodGroup: null, Managers: [], Manager: null, EmployeeId: null,
+            BloodGroup: null, Managers: [], Manager: null, EmployeeId: null, ProvisionalPeriod: 0,
+
         }
     }
 
     componentWillMount() {
-        //  this.setState({ EmployeeId: this.props.match.params["Id"]})
 
-        //  if (this.props.match.params["id"] != null)
-        //     {
+        this.setState({ EmployeeId: this.props.match.params["id"] }, () => {
+            if (this.props.match.params["id"] != null) {
+                $.ajax({
+                    url: ApiUrl + "/api/Employee/GetEmployee?EmpId=" + this.props.match.params["id"],
+                    type: "get",
+                    success: (data) => {
+                        this.setState({
+                            Employee: data["employee"],
+                            BloodGroup: { value: data["employee"]["BloodGroup"], label: data["employee"]["BloodGroup"] },
+                            Country: { value: data["employee"]["Country"], label: data["employee"]["CountryName"] },
+                            State: { value: data["employee"]["State"], label: data["employee"]["StateName"] },
+                            City: { value: data["employee"]["City"], label: data["employee"]["CityName"] },
+                            EmpType: { value: data["employee"]["EmploymentType"], label: data["employee"]["EmploymentType"] },
+                            Designation: { value: data["employee"]["DesgId"], label: data["employee"]["DesgName"] },
+                            Department: { value: data["employee"]["DeptId"], label: data["employee"]["DeptName"] },
+                            Role: { value: data["employee"]["RoleId"], label: data["employee"]["RoleName"] },
+                            Manager: { value: data["employee"]["ManagerId"], label: data["employee"]["ManagerName"] },
+                            Gender: { value: data["employee"]["Gender"], label: data["employee"]["Gender"] },
 
-        //     } 
+                        })
 
+                        //    console.log(this.state.Employee["DOB"]);
+                        console.log(this.state.Employee["DOJ"]);
 
+                    }
+                })
+            }
+
+        })
 
         $.ajax({
             url: ApiUrl + "/api/MasterData/GetCountries",
@@ -67,7 +91,7 @@ class EmployeeRegistration extends Component {
 
     render() {
         return (
-            <div className="headercon">
+            <div className="headercon" key={this.state.Employee}>
                 <div className="container">
                     <button className="col-md-3 btn btn-default btn-circle" style={{ marginTop: '0.5%', marginLeft: '10%' }} title="General Details" > 1</button>
                     <hr className="col-md-4" />
@@ -94,7 +118,7 @@ class EmployeeRegistration extends Component {
                                     <span className="input-group-addon" >
                                         <i className="glyphicon glyphicon-user" aria-hidden="true"></i>
                                     </span>
-                                    <input className="form-control" type="text" name="FirstName" placeholder="First Name" autoComplete="off" ref="firstname" />
+                                    <input className="form-control" type="text" name="FirstName" placeholder="First Name" autoComplete="off" ref="firstname" defaultValue={this.state.Employee["FirstName"]} />
                                 </div>
                             </div>
 
@@ -104,7 +128,7 @@ class EmployeeRegistration extends Component {
                                     <span className="input-group-addon" >
                                         <i className="glyphicon glyphicon-user" aria-hidden="true"></i>
                                     </span>
-                                    <input className="form-control" type="text" name="MiddleName" placeholder="Middle Name" autoComplete="off" ref="middlename" />
+                                    <input className="form-control" type="text" name="MiddleName" placeholder="Middle Name" autoComplete="off" ref="middlename" defaultValue={this.state.Employee["MiddleName"]} />
                                 </div>
 
                             </div>
@@ -116,7 +140,7 @@ class EmployeeRegistration extends Component {
                                         <span className="input-group-addon" >
                                             <span className="glyphicon glyphicon-user"></span>
                                         </span>
-                                        <input className="col-md-3 form-control" type="text" name="LastName" placeholder="Last Name" autoComplete="off" ref="lastname" />
+                                        <input className="col-md-3 form-control" type="text" name="LastName" placeholder="Last Name" autoComplete="off" ref="lastname" defaultValue={this.state.Employee["LastName"]} />
                                     </div>
                                 </div>
                             </div>
@@ -128,7 +152,7 @@ class EmployeeRegistration extends Component {
                                         <span className="input-group-addon">
                                             <span className="glyphicon glyphicon-envelope"></span>
                                         </span>
-                                        <input className="col-md-3 form-control" name="email" type="text" placeholder="Email" autoComplete="off" ref="email" />
+                                        <input className="col-md-3 form-control" name="email" type="text" placeholder="Email" autoComplete="off" ref="email" defaultValue={this.state.Employee["Email"]} />
                                     </div>
                                 </div>
                             </div>
@@ -144,7 +168,7 @@ class EmployeeRegistration extends Component {
                                         <span className="input-group-addon">
                                             <span className="glyphicon glyphicon-phone"></span>
                                         </span>
-                                        <input className="col-md-3 form-control" name="PhoneNumber" type="text" placeholder="Primary Phone Number" autoComplete="off" ref="primaryNum" />
+                                        <input className="col-md-3 form-control" name="PhoneNumber" type="text" placeholder="Primary Phone Number" autoComplete="off" ref="primaryNum" defaultValue={this.state.Employee["PrimaryPhoneNum"]} />
                                     </div>
                                 </div>
                             </div>
@@ -156,7 +180,7 @@ class EmployeeRegistration extends Component {
                                         <span className="input-group-addon">
                                             <span className="glyphicon glyphicon-phone"></span>
                                         </span>
-                                        <input className="col-md-3 form-control" name="secondaryNum" type="text" placeholder="Secondary Phone Number" autoComplete="off" ref="secondaryNum" />
+                                        <input className="col-md-3 form-control" name="secondaryNum" type="text" placeholder="Secondary Phone Number" autoComplete="off" ref="secondaryNum" defaultValue={this.state.Employee["SecondaryPhoneNum"]} />
                                     </div>
                                 </div>
                             </div>
@@ -178,6 +202,7 @@ class EmployeeRegistration extends Component {
                         </div>
 
                         <div className="col-xs-12">
+
                             <div className="col-md-4">
                                 <label>Date of birth </label>
                                 <div className="form-group">
@@ -185,7 +210,7 @@ class EmployeeRegistration extends Component {
                                         <span className="input-group-addon">
                                             <span className="glyphicon glyphicon-calendar"></span>
                                         </span>
-                                        <input className="col-md-3 form-control" style={{ lineHeight: '19px' }} type="date" name="DateOfBirth" ref="dob" autoComplete="off" />
+                                        <input className="col-md-3 form-control" style={{ lineHeight: '19px' }} type="date" name="DateOfBirth" ref="dob" autoComplete="off" defaultValue={this.state.Employee["DOB"]} />
                                     </div>
                                 </div>
                             </div>
@@ -214,7 +239,7 @@ class EmployeeRegistration extends Component {
                                         <span className="input-group-addon">
                                             <span className="glyphicon glyphicon-info-sign"></span>
                                         </span>
-                                        <input className="col-md-3 form-control" name="aadhar" type="text" placeholder="Aadhar Number" autoComplete="off" ref="aadhar" />
+                                        <input className="col-md-3 form-control" name="aadhar" type="text" placeholder="Aadhar Number" autoComplete="off" ref="aadhar" defaultValue={this.state.Employee["Aadhar"]} />
                                     </div>
                                 </div>
                             </div>
@@ -226,7 +251,7 @@ class EmployeeRegistration extends Component {
                                         <span className="input-group-addon">
                                             <span className="glyphicon glyphicon-info-sign"></span>
                                         </span>
-                                        <input className="col-md-3 form-control" name="pan" type="text" placeholder="Pan Number" autoComplete="off" ref="panNum" />
+                                        <input className="col-md-3 form-control" name="pan" type="text" placeholder="Pan Number" autoComplete="off" ref="panNum" defaultValue={this.state.Employee["Pan"]} />
                                     </div>
                                 </div>
                             </div>
@@ -245,7 +270,7 @@ class EmployeeRegistration extends Component {
                                         <span className="input-group-addon">
                                             <span className="glyphicon glyphicon-map-marker"></span>
                                         </span>
-                                        <input className="col-md-5 form-control" type="text" name="AddressLine1" placeholder="Address " autoComplete="off" ref="addressLine1" />
+                                        <input className="col-md-5 form-control" type="text" name="AddressLine1" placeholder="Address " autoComplete="off" ref="addressLine1" defaultValue={this.state.Employee["AddressLine1"]} />
                                     </div>
                                 </div>
                             </div>
@@ -257,7 +282,7 @@ class EmployeeRegistration extends Component {
                                         <span className="input-group-addon">
                                             <span className="glyphicon glyphicon-map-marker"></span>
                                         </span>
-                                        <input className="col-md-5 form-control" type="text" placeholder="Address " autoComplete="off" ref="addressLine2" />
+                                        <input className="col-md-5 form-control" type="text" placeholder="Address " autoComplete="off" ref="addressLine2" defaultValue={this.state.Employee["AddressLine2"]} />
                                     </div>
                                 </div>
                             </div>
@@ -307,7 +332,7 @@ class EmployeeRegistration extends Component {
                                         <span className="input-group-addon">
                                             <span className="glyphicon glyphicon-home"></span>
                                         </span>
-                                        <input className="form-control" type="text" name="zip" ref="zip" placeholder="Postal code" />
+                                        <input className="form-control" type="text" name="zip" ref="zip" placeholder="Postal code" defaultValue={this.state.Employee["ZIP"]} />
                                     </div>
                                 </div>
                             </div>
@@ -320,20 +345,26 @@ class EmployeeRegistration extends Component {
                         <div>
                             <div className="col-xs-12">
 
-                                <div className="col-xs-4">
-                                    <label> Date Of joining </label>
+                                <div className="col-xs-3" >
+                                    <label> Date of joining </label>
                                     <div className="form-group">
                                         <div className="input-group">
                                             <span className="input-group-addon">
                                                 <span className="glyphicon glyphicon-calendar"></span>
                                             </span>
-                                            {/* <input className="form-control" type="date"  ref="doj" /> */}
-                                            <input className="form-control" type="date" name="dateOfJoining" style={{ lineHeight: '19px' }} ref="doj" autoComplete="off" />
+                                            <input className="form-control" type="date" name="dateOfJoining" style={{ lineHeight: '19px' }} ref="doj" autoComplete="off" defaultValue={this.state.Employee["DOJ"]} />
                                         </div>
                                     </div>
                                 </div>
 
-                                <div className="col-xs-4">
+                                <div className="col-xs-3">
+                                    <label> Provisional Period(Months) </label>
+                                    <div className="form-group">
+                                        <input className="form-control" type="number" name="provisional period" defaultValue={this.state.Employee["ProvisionalPeriod"]} placeholder="Provisional Period" ref="provisionalPeriod" autoComplete="off" min="0" />
+                                    </div>
+                                </div>
+
+                                <div className="col-xs-3">
                                     <label> Employment Type </label>
                                     <div className="form-group">
                                         <div className="input-group">
@@ -347,7 +378,7 @@ class EmployeeRegistration extends Component {
                                     </div>
                                 </div>
 
-                                <div className="col-xs-4">
+                                <div className="col-xs-3">
                                     <label> Designation</label>
                                     <div className="form-group">
                                         <div className="input-group">
@@ -541,6 +572,8 @@ class EmployeeRegistration extends Component {
         data.append("Zip", this.refs.zip.value);
         data.append("DOB", this.refs.dob.value);
         data.append("DOJ", this.refs.doj.value);
+        data.append("ProvisionalPeriod", this.refs.provisionalPeriod.value);
+        data.append("BloodGroup", this.state.BloodGroup.value);
 
         if (!this.state.Manager || !this.state.Manager.value) {
             data.append("Manager", "");
@@ -549,9 +582,13 @@ class EmployeeRegistration extends Component {
             data.append("Manager", this.state.Manager.value);
         }
 
-        data.append("BloodGroup", this.state.BloodGroup.value);
-
-        var url = ApiUrl + "/api/Employee/AddEmployee"
+        if (this.props.match.params["id"] != null) {
+            data.append("OldUserName", this.state.Employee["Email"]);
+            var url = ApiUrl + "/api/Employee/UpdateEmployee?EmpId=" + this.props.match.params["id"]
+        }
+        else {
+            var url = ApiUrl + "/api/Employee/AddEmployee"
+        }
 
         try {
             MyAjaxForAttachments(

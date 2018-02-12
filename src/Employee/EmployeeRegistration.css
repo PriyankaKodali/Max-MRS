@@ -45,6 +45,10 @@
   line-height: 1.428571429;
   border-radius: 15px;
 }
+
+.empDates{
+    line-height: 19px;
+}
 /* 
 .input[type="date"].form-control{
     line-height: 19px;

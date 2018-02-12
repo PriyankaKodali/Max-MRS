@@ -26,7 +26,7 @@ class EditDoctor extends Component {
         $.ajax({
             url: ApiUrl + "/api/MasterData/GetCountries",
             type: "get",
-            success: (data) => { this.setState({ Countries: data["Countries"] }) }
+            success: (data) => { this.setState({ Countries: data["countries"] }) }
         })
 
         $.ajax({
@@ -44,9 +44,9 @@ class EditDoctor extends Component {
         })
 
         $.ajax({
-            url: ApiUrl + "/api/Client/Clients",
+            url: ApiUrl + "/api/MasterData/GetAllClients",
             type: "GET",
-            success: (data) => { this.setState({ Clients: data["ClientNames"] }) }
+            success: (data) => { this.setState({ Clients: data["clients"] }) }
         })
 
         $.ajax({
@@ -80,7 +80,7 @@ class EditDoctor extends Component {
                 <div className="headercon" key={this.state.Doctor}>
                     <div className="container">
                         <div className="col-xs-12 headerstyle" >
-                            <h3 className="col-xs-11 formheader" style={{ paddingLeft: '10px' }}> Employee Details</h3>
+                            <h3 className="col-xs-11 formheader" style={{ paddingLeft: '10px' }}> Doctor Details</h3>
                             <div className="col-md-1 mybutton">
                                 <button type="button" className="btn btn-default pull-left headerbtn" onClick={() => this.props.history.push("/DoctorsList")} >
                                     <span className="glyphicon glyphicon-th-list"></span>

@@ -20,7 +20,7 @@ class ClientRegistration extends Component {
             ClientVerticals: [], ClientVertical: '', Countries: [], Country: null, States: [], State: null,
             Cities: [], City: null, TimeZone: null, TimeZones: null, AddClientAddressClick: true, LocationCount: 0,
             ClientLocations: ClientLocations, ClientLocationRefs: [], PaymentType: null, Currency: null,
-            ClientType: null, removeSelected: true, IsVendor: false, ClientId: null, Client: [], ClientLoc: [],
+            ClientType: '', removeSelected: true, IsVendor: false, ClientId: null, Client: [], ClientLoc: [],
             IsActive: true,
         }
     }
@@ -489,7 +489,7 @@ class ClientRegistration extends Component {
 
         var clientLocationRefs = this.state.ClientLocationRefs;
 
-        if (!this.state.ClientType.value == "Vendor") {
+        if (this.state.ClientType == "Vendor") {
 
             if (!this.state.PaymentType || !this.state.PaymentType.value) {
                 success = false;

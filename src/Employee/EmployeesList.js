@@ -184,7 +184,7 @@ class EmployeesList extends Component {
 
     editDataFormatter(cell, row) {
         return (
-            <i className='glyphicon glyphicon-pencil' style={{ fontSize: '18px' }} onClick={() => this.props.history.push("/EmployeeRedistration/" + row["Id"])}  ></i>
+            <i className='glyphicon glyphicon-pencil' style={{ fontSize: '18px' }} onClick={() => this.props.history.push("/EmployeeRegistration/" + row["Id"])}  ></i>
         )
     }
 

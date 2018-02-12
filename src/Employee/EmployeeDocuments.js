@@ -50,7 +50,7 @@ class EmployeeDocuments extends Component {
                                                 <div className="modal-body col-xs-12">
                                                     <div className="col-md-4 form-group">
                                                         <label> Document</label>
-                                                        <input className="form-control" type="file" name="files" ref="documents" />
+                                                        <input className="form-control" type="file" name="files" ref="document" />
                                                     </div>
 
                                                     <div className="col-md-4 form-group">
@@ -121,20 +121,20 @@ class EmployeeDocuments extends Component {
             return;
         }
 
-        var inputs = $(e.currentTarget.getElementsByClassName('form-control')).map((i, el) => {
-            if (el.closest(".form-group").classList.contains("hidden")) {
-                return null;
-            }
-            else {
-                return el;
-            }
-        });
+        var data=new FormData();
+        data.append("Category", this.refs.category.value);
+        data.append("DocDate", this.refs.documentdate.value);
+        data.append("Keywords", this.refs.keywords.value);
+        data.append("Notes", this.refs.notes.value);
+        data.append("Documents", this.refs.document.files[0]);
+
 
 
     }
 
     validate(e) {
         var success = ValidateForm(e);
+
         return success;
     }
 

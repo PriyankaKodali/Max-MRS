@@ -472,7 +472,7 @@ class Doctor extends Component {
                     return true;
                 },
                 (error) => {
-                    toast("An error occoured, please try again!", {
+                    toast("User with Idigital AuthorId of " + this.refs.idigitalAuthorId.value + ", already exists!", {
                         type: toast.TYPE.ERROR,
                         autoClose: false
                     });
