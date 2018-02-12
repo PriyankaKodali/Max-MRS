@@ -1,0 +1,26 @@
+    
+ .Container{
+    padding-right: 15px;
+    padding-left: 12px;
+    margin-right: 6%;
+    margin-left: 6%;
+    padding-top: 10px;
+    
+}
+   .formSearch
+  {
+    padding:10px 0;
+    box-sizing: border-box; 
+    background-color: lightgray;
+    margin-bottom: 10px;
+    height:64px;
+    padding-left: '10px'
+ } 
+
+ .headerButton{
+    margin: 0;
+    text-align: left;
+    background-color: lightseagreen;
+    color: white;
+ }
+

@@ -1,0 +1,23 @@
+  .formhead
+   {
+       margin: 0;
+       padding-top: 12px;
+       padding-bottom: 12px;
+       padding-left: 10px;
+       text-align: left;
+       background-color: lightseagreen;
+       color: white;
+   }
+    .jobsplitbtn{
+       margin-top: 20px;
+       margin-left: 40%;
+    }
+
+.headercon{
+    margin-top:50px; 
+}
+
+.jobsplit{
+    margin-top: 2%;
+    margin-left: 2%;
+}

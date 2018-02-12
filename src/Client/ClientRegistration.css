@@ -1,0 +1,41 @@
+.clientAddressbtn{
+    margin-top: 1.8%;
+    height: 40px;
+}
+
+ .AddClientAddress
+  {
+    padding:10px 0;
+    box-sizing: border-box; 
+    margin-bottom: 10px;
+ }
+
+ .myheaderbtn{
+    margin: 3px 0;
+    border-color: lightseagreen;
+ }
+
+ .headerstyle{
+     margin-top: 1%;
+ }
+
+ .checkboxes label {
+  display: block;
+  float: left;
+  padding-right: 10px;
+  white-space: nowrap;
+}
+.checkboxes input {
+  vertical-align: middle;
+}
+.checkboxes label span {
+  vertical-align: middle;
+}
+
+.activeCheckboxes{
+  width: 18px;
+   height: 18px;
+}
+.checkboxlabel{
+  padding-bottom: 3px;
+}
