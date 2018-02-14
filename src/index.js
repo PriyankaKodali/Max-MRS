@@ -58,11 +58,11 @@ ReactDOM.render((
 
                 <Route exact path="/ClientEmpRegistration" component={ClientEmpRegistration} />
                 <Route exact path="/ClientRegistration/:id?" component={ClientRegistration} />
-
                 <Route exact path="/EmployeeRegistration/:id?" component={EmployeeRegistration} />
+                <Route exact path="/EmployeePayScale/:id" component={EmployeePayScale} />
+                <Route exact path="/EmployeeDocuments/:id" component={EmployeeDocuments} />
 
-                <Route exact path="/EmployeePayScale" component={EmployeePayScale} />
-                <Route exact path="/EmployeeDocuments" component={EmployeeDocuments} />
+                
                 <Route exact path="/ClientEmployeesList" component={ClientEmployeesList} />
                 <Route exact path="/EmployeesList" component={EmployeesList} />
                 <Route exact path="/ClientsList" component={ClientsList} />

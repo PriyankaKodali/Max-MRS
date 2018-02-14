@@ -44,47 +44,31 @@
   font-size: 12px;
   line-height: 1.428571429;
   border-radius: 15px;
+  margin-top: 0.5%;
 }
 
 .empDates{
     line-height: 19px;
 }
-/* 
-.input[type="date"].form-control{
-    line-height: 19px;
-} */
-
-/* .progress-timeline-bar{
+.btnClose{
+    margin-right: 4%;
+    width: 30px; 
+    background: white;
+    height: 30px; 
+}
+.btnSave{
+    margin-left: 50%;
+}
+.btnPayscaleSubmit{
+    margin-left: 50%;
     margin-top: 1%;
-    height: 10px;
-    margin: 10px 0;
-    background-color:pink;
-    border-radius: 10px;
 }
 
-.timeline-horizontal .timeline-item .timeline-badge {
-    top: auto;
-    bottom: 8px;
-    left: 37px;
+.docSearch{
+    padding:10px 0;
+    background-color: lightgray;
+    margin-bottom: 10px;
+    height:64px;
+    margin-top: 5%;
+   
 }
-
-.timeline .timeline-item .timeline-badge {
-    color: #fff;
-    width: 38px;
-    height: 38px;
-    line-height: 31px;
-    font-size: 15px;
-    text-align: center;
-    position: absolute;
-     top: 52px;
-    left: 16%;
-    margin-left: 65px;
-    background-color: #7c7c7c;
-    border: 3px solid #ffffff;
-    z-index: 100;
-    border-top-right-radius: 50%;
-    border-top-left-radius: 50%;
-    border-bottom-right-radius: 50%;
-    border-bottom-left-radius: 50%;
-  
-} */

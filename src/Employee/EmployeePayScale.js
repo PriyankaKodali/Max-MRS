@@ -5,6 +5,9 @@ import 'react-datepicker/dist/react-datepicker.css';
 import 'react-bootstrap-table/dist/react-bootstrap-table.min.css';
 import { showErrorsForInput, setUnTouched, ValidateForm } from '.././Validation';
 import { ApiUrl } from '../Config';
+import { toast } from 'react-toastify';
+import { MyAjaxForAttachments, MyAjax } from '../MyAjax';
+
 
 var validate = require('validate.js');
 var moment = require('moment');
@@ -17,12 +20,21 @@ class EmployeePayScale extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            //  ctc: 0,
-            // bankname: null,
-            // branchname: null,
-            // accNumber: null,
-            // accName: null
+            EmployeeId: null, EmployeePayScale:[]
         }
+    }
+
+    componentWillMount() {
+      
+        this.setState({ EmployeeId: this.props.match.params["id"] }, () => {
+            if (this.props.match.params["id"] != null) {
+                $.ajax({
+                    url: ApiUrl + "/api/Employee/GetEmpPayScale?EmpId=" + this.props.match.params["id"],
+                    type: "get",
+                    success: (data) => { this.setState({ EmployeePayScale: data["empPayScale"] }) }
+                })
+            }
+        })
     }
 
     componentDidMount() {
@@ -31,15 +43,15 @@ class EmployeePayScale extends Component {
 
     render() {
         return (
-            <div className="headercon">
+            <div className="headercon" key={this.state.EmployeePayScale}>
 
-                 <button className="col-md-3 btn btn-default btn-circle" style={{ marginTop: '0.5%', marginLeft: '10%' }} onClick={() => this.props.history.push("/EmployeeRegistration")} title="General Details" > 1</button>
-                    <hr className="col-md-4" />
-                    <button className="col-md-3 btn btn-default btn-circle" style={{ marginTop: '0.5%' }} onClick={() => this.props.history.push("/EmployeeDocuments")} title="Documents" > 2</button>
-                    <hr className="col-md-4" />
-                    <button className="col-md-3 btn btn-default btn-circle" style={{ marginTop: '0.5%' }} onClick={() => this.props.history.push("/EmployeePayScale")} title="PayScales" > 3</button>
+                <button className="col-md-3 btn btn-default btn-circle" style={{ marginTop: '0.5%', marginLeft: '10%' }} onClick={() => this.props.history.push("/EmployeeRegistration")} title="General Details" > 1</button>
+                <hr className="col-md-4" />
+                <button className="col-md-3 btn btn-default btn-circle" onClick={() => this.props.history.push("/EmployeeDocuments/" + this.props.match.params["id"])} title="Documents" > 2</button>
+                <hr className="col-md-4" />
+                <button className="col-md-3 btn btn-default btn-circle" onClick={() => this.props.history.push("/EmployeePayScale/" + this.props.match.params["id"])} title="PayScales" > 3</button>
 
-            
+
                 <div className="container">
                     <div className="col-xs-12">
                         <h3 className="Empheading">Payscale Details</h3>
@@ -50,33 +62,33 @@ class EmployeePayScale extends Component {
                         <div className="col-xs-12">
                             <div className="col-md-4 form-group">
                                 <label> CTC </label>
-                                <input className="form-control" type="text" name="CTC" placeholder="Current CTC" autoComplete="off" ref="ctc" autoFocus />
+                                <input className="form-control" type="text" name="CTC" placeholder="Current CTC" autoComplete="off" ref="ctc" autoFocus defaultValue={this.state.EmployeePayScale["CTC"]} />
                             </div>
                             <div className="col-md-4 form-group">
                                 <label> Bank Name </label>
-                                <input className="form-control" type="text" name="BankName" placeholder="Bank Name" autoComplete="off" ref="bankname" />
+                                <input className="form-control" type="text" name="BankName" placeholder="Bank Name" autoComplete="off" ref="bankName" defaultValue={this.state.EmployeePayScale["BankName"]} />
                             </div>
 
                             <div className="col-md-4 form-group">
                                 <label> Branch Name </label>
-                                <input className="form-control" type="text" name="BranchName" placeholder="Branch Name" ref="branchname" />
+                                <input className="form-control" type="text" name="BranchName" placeholder="Branch Name" ref="branchName" autoComplete="off" defaultValue={this.state.EmployeePayScale["BranchName"]}  />
                             </div>
                         </div>
                         <div className="col-xs-12">
 
                             <div className="col-xs-5 form-group">
                                 <label> Branch Account Number </label>
-                                <input className="form-control" type="text" name="AccountNumber" placeholder="Bank Account Number" ref="accNumber" />
+                                <input className="form-control" type="text" name="AccountNumber" placeholder="Bank Account Number" ref="accNumber" autoComplete="off" defaultValue={this.state.EmployeePayScale["AccountNumber"]} />
                             </div>
 
                             <div className="col-xs-5 form-group">
                                 <label>Account Name</label>
-                                <input className="form-control" type="text" name="AccountName" placeholder="Account Name" autoComplete="off" ref="accName" />
+                                <input className="form-control" type="text" name="AccountName" placeholder="Account Name" autoComplete="off" ref="accName" autoComplete="off" defaultValue={this.state.EmployeePayScale["AccountName"]}  />
                             </div>
                         </div>
 
                         <div className="col-xs-12">
-                            <button className="btn btn-primary mybutton" type="submit" name="submit" style={{ marginLeft: '45%', marginTop: '3%' }}  >Submit</button>
+                            <button className="btn btn-primary btnPayscaleSubmit" type="submit" name="submit" >Submit</button>
                         </div>
                     </form>
                 </div>
@@ -95,24 +107,52 @@ class EmployeePayScale extends Component {
         if (!this.validate(e)) {
             return;
         }
+        var data = new FormData();
+        data.append("CTC", this.refs.ctc.value);
+        data.append("BankName", this.refs.bankName.value);
+        data.append("BranchName", this.refs.branchName.value);
+        data.append("AccountNumber", this.refs.accNumber.value);
+        data.append("AccountName", this.refs.accName.value);
+        data.append("EmployeeId", this.state.EmployeeId);
 
-        var inputs = $(e.currentTarget.getElementsByClassName('form-control')).map((i, el) => {
-            if (el.closest(".form-group").classList.contains("hidden")) {
-                return null;
-            }
-            else {
-                return el;
-            }
-        });
+        var url = ApiUrl + "/api/Employee/AddEmpPayScale?EmpId=" + this.state.EmployeeId
 
-        //     var data = new FormData();
+        try {
+            MyAjaxForAttachments(
+                url,
+                (data) => {
+                    toast(" Employee Payscale details saved successfully!", {
+                        type: toast.TYPE.SUCCESS
+                    });
+                    $("button[name='submit']").show();
+                    this.props.history.push("/EmployeesList");
+                    return true;
+                },
+                (error) => {
+                    toast("An error occoured, please try again!", {
+                        type: toast.TYPE.ERROR,
+                        autoClose: false
+                    });
+                    $(".loader").hide();
+                    $("button[name='submit']").show();
+                    return false;
+                },
+                "POST",
+                data
+            );
+        }
+        catch (e) {
+            toast("An error occoured, please try again!", {
+                type: toast.TYPE.ERROR
+            });
+            $(".loader").hide();
+            $("button[name='submit']").show();
+            return false;
+        }
+
     }
 
     validate(e) {
-        //let fields = this.state.fields;
-        //console.log(fields);
-        //let IsError = false;
-        //let errors = {};
         var success = ValidateForm(e);
         return success;
     }

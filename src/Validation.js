@@ -24,7 +24,7 @@ var constraints = {
             message: "is not valid"
         }
     },
-    email:{
+    email: {
         presence: true,
         format: {
             pattern: "[A-Za-z0-9._%+-]{3,}@[a-zA-Z]{3,}([.]{1}[a-zA-Z]{2,}|[.]{1}[a-zA-Z]{2,}[.]{1}[a-zA-Z]{2,})",
@@ -40,14 +40,13 @@ var constraints = {
     {
         presence: true
     },
-    aadhar:{
-       presence:true,
-       format:{
-           pattern:"[0-9]{12}",
-           message: "is not valid"
-       }
+    aadhar: {
+        presence: true,
+        format: {
+            pattern: "[0-9]{12}",
+            message: "is not valid"
+        }
     },
-
     pan:
     {
         presence: true,
@@ -59,12 +58,12 @@ var constraints = {
     zip: {
         presence: true
     },
-    CTC:{
-    presence:true
+    CTC: {
+        presence: true
     },
     BankName: {
         presence: true,
-         format: {
+        format: {
             pattern: "[a-zA-Z ]+",
             message: "should contain only alphabets"
         }
@@ -72,12 +71,12 @@ var constraints = {
 
     BranchName: {
         presence: true,
-         format: {
+        format: {
             pattern: "[a-zA-Z ]+",
             message: "should contain only alphabets"
         }
     },
-    
+
     AccountNumber: {
         presence: true,
     },
@@ -95,63 +94,59 @@ var constraints = {
             message: "is not valid"
         }
     },
-   
-    Department:{
-        presence:true,
-         format: {
-            pattern: "[a-zA-Z ]+",
-            message: "should contain only alphabets"
-        }
-    },
-    ClientName:{
-        presence: true,
-        format: {
-            pattern: "[a-zA-Z ]+",
-            message: "should contain only alphabets"
-        }
-    },
-         ShortName: {
-        presence: true,
-        format: {
-            pattern: "[a-zA-Z ]+",
-            message: "should contain only alphabets"
-        }
-    },
-    ClientName:{
-         presence: true,
-        format: {
-            pattern: "[a-zA-Z ]+",
-            message: "should contain only alphabets"
-        }
-    },
-    PaymentAmount:{
-        presence:true
-    },
 
-    Category:{
+    Department: {
+        presence: true,
+        format: {
+            pattern: "[a-zA-Z ]+",
+            message: "should contain only alphabets"
+        }
+    },
+    ClientName: {
+        presence: true,
+        format: {
+            pattern: "[a-zA-Z ]+",
+            message: "should contain only alphabets"
+        }
+    },
+    ShortName: {
+        presence: true,
+        format: {
+            pattern: "[a-zA-Z ]+",
+            message: "should contain only alphabets"
+        }
+    },
+    ClientName: {
+        presence: true,
+        format: {
+            pattern: "[a-zA-Z ]+",
+            message: "should contain only alphabets"
+        }
+    },
+    PaymentAmount: {
         presence: true
     },
-    IDigitalId:{
-        presence:true
+    IDigitalId: {
+        presence: true
     },
-    IDigitalAuthorId:{
-        presence:true
+    IDigitalAuthorId: {
+        presence: true
     },
-    MacroPercent:{
-        presence:true
+    MacroPercent: {
+        presence: true
     },
-    Salutation:{
-        presence:true
+    Salutation: {
+        presence: true
     },
-    DoctorGroup:{
-        presence:true,
-        format:{
-             pattern: "[a-zA-Z ]+",
+    DoctorGroup: {
+        presence: true,
+        format: {
+            pattern: "[a-zA-Z ]+",
             message: "should contain only alphabets"
         }
     },
-    CTC:{
-    presence:true
+    CTC: {
+        presence: true
     },
 
     BankName: {
@@ -161,7 +156,7 @@ var constraints = {
     BranchName: {
         presence: true
     },
-    
+
     AccountNumber: {
         presence: true
     },
@@ -171,6 +166,9 @@ var constraints = {
             pattern: "[a-zA-Z ]+",
             message: "should contain only alphabets"
         }
+    },
+    Category: {
+        presence: true
     }
 
 }
@@ -227,7 +225,7 @@ var showErrors = (inputs, errors) => {
         showErrorsForInput(input, errors && errors[input.name]);
         return null;
     });
-    return; 
+    return;
 }
 
 var ValidateForm = (e) => {
@@ -239,7 +237,7 @@ var ValidateForm = (e) => {
             return el;
         }
     });
-    
+
     //remove un-touched class for all elements when form submitted
     if (e.type === "submit") {
         inputs.map((i, e) => {
@@ -259,7 +257,7 @@ var ValidateForm = (e) => {
     //console.log(inputs);
 
     var errors = validate(data, constraints);
-    
+
     showErrors(inputs, errors);
 
     //set focus to first element with error when form submit

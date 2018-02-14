@@ -46,7 +46,6 @@ class EmployeeRegistration extends Component {
                             Role: { value: data["employee"]["RoleId"], label: data["employee"]["RoleName"] },
                             Manager: { value: data["employee"]["ManagerId"], label: data["employee"]["ManagerName"] },
                             Gender: { value: data["employee"]["Gender"], label: data["employee"]["Gender"] },
-
                         })
 
                         //    console.log(this.state.Employee["DOB"]);
@@ -93,11 +92,27 @@ class EmployeeRegistration extends Component {
         return (
             <div className="headercon" key={this.state.Employee}>
                 <div className="container">
-                    <button className="col-md-3 btn btn-default btn-circle" style={{ marginTop: '0.5%', marginLeft: '10%' }} title="General Details" > 1</button>
-                    <hr className="col-md-4" />
-                    <button className="col-md-3 btn btn-default btn-circle" style={{ marginTop: '0.5%' }} onClick={() => this.props.history.push("/EmployeeDocuments")} title="Documents" > 2</button>
-                    <hr className="col-md-4" />
-                    <button className="col-md-3 btn btn-default btn-circle" style={{ marginTop: '0.5%' }} onClick={() => this.props.history.push("/EmployeePayScale")} title="PayScales" > 3</button>
+                    <button className="col-md-3 btn btn-default btn-circle" style={{ marginLeft: '10%' }} title="General Details" > 1</button>
+
+                    {
+                        this.props.match.params["id"] != null ?
+                            <div>
+                                <hr className="col-md-4" />
+                                <button className="col-md-3 btn btn-default btn-circle"  onClick={() => this.props.history.push("/EmployeeDocuments/" +  this.props.match.params["id"])} title="Documents" > 2</button>
+                                <hr className="col-md-4" />
+                                <button className="col-md-3 btn btn-default btn-circle"  onClick={() => this.props.history.push("/EmployeePayScale/" +  this.props.match.params["id"])} title="PayScales" > 3 </button>
+                            </div>
+                            :
+                            <div>
+                                <hr className="col-md-4" />
+                                <button className="col-md-3 btn btn-default btn-circle" title="Documents" > 2</button>
+                                <hr className="col-md-4" />
+                                <button className="col-md-3 btn btn-default btn-circle"  title="PayScales" > 3</button>
+
+                            </div>
+                    }
+
+
 
                     <form onSubmit={this.handleSubmit.bind(this)} onChange={this.validate.bind(this)} >
 
@@ -432,7 +447,7 @@ class EmployeeRegistration extends Component {
                             </div>
 
                             <div className="col-xs-12" >
-                                <button type="submit" style={{ marginLeft: '45%' }} name="submit" className="btn btn-md btn-default" > Submit </button>
+                                <button type="submit" name="submit" className="btn btn-md btn-default btnSave" > Submit </button>
                             </div>
 
                         </div>
