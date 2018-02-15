@@ -151,7 +151,6 @@ class EmployeesList extends Component {
     }
 
     SearchClick() {
-
         this.setState({
             empNum:  this.refs.empNum.value,
             name:this.refs.name.value,

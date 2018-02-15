@@ -30,7 +30,6 @@ import EmployeeDocuments from './Employee/EmployeeDocuments';
 import EditClientEmployee from './ClientEmpRegistration/EditClientEmployee';
 import Doctor from './Doctor/Doctor';
 import DoctorsList from './Doctor/DoctorsList';
-import EditDoctor from './Doctor/EditDoctor';
 import DoctorGroups from './Doctor/DoctorGroups';
 
 
@@ -61,17 +60,16 @@ ReactDOM.render((
                 <Route exact path="/EmployeeRegistration/:id?" component={EmployeeRegistration} />
                 <Route exact path="/EmployeePayScale/:id" component={EmployeePayScale} />
                 <Route exact path="/EmployeeDocuments/:id" component={EmployeeDocuments} />
+                <Route exact path="/Doctor/:id?" component={Doctor} />
 
-                
                 <Route exact path="/ClientEmployeesList" component={ClientEmployeesList} />
                 <Route exact path="/EmployeesList" component={EmployeesList} />
                 <Route exact path="/ClientsList" component={ClientsList} />
                 <Route exact path="/EditClientEmployee/:id" component={EditClientEmployee} />
-                <Route exact path="/Doctor" component={Doctor} />
+
                 <Route exact path="/DoctorsList" component={DoctorsList} />
-                <Route exact path="/EditDoctor/:id" component={EditDoctor} />
                 <Route exact path="/DoctorGroups" component={DoctorGroups} />
-                {/* <Route exact path="/EditClient/:id" component={EditClient} /> */}
+        
             </App>
         </div>
     </HashRouter>

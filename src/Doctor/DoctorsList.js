@@ -174,7 +174,7 @@ class DoctorsList extends Component {
 
     editDataFormatter(cell, row) {
         return (
-            <i className='glyphicon glyphicon-pencil' style={{ fontSize: '18px' }} onClick={() => this.props.history.push("/EditDoctor/" + row["Id"])} ></i>
+            <i className='glyphicon glyphicon-pencil' style={{ fontSize: '18px' }} onClick={() => this.props.history.push("/Doctor/" + row["Id"])} ></i>
         )
     }
 

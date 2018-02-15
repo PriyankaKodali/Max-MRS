@@ -29,6 +29,10 @@ class EmployeeDocuments extends Component {
         })
     }
 
+    componentDidMount() {
+        setUnTouched(document);
+    }
+
     getEmployeeDocuments(page, count) {
         var url = ApiUrl + "/api/Employee/GetEmpDocuments?EmpId=" + this.state.EmployeeId +
             "&category=" + this.state.category +
@@ -55,7 +59,7 @@ class EmployeeDocuments extends Component {
 
     render() {
         return (
-            <div className="headercon" key={this.state.Documents}>
+            <div className="headercon" key={this.state.EmpName}>
                 <button className="col-md-3 btn btn-default btn-circle" style={{ marginLeft: '10%' }} onClick={() => this.props.history.push("/EmployeeRegistration")} title="General Details" > 1</button>
                 <hr className="col-md-4" />
                 <button className="col-md-3 btn btn-default btn-circle" onClick={() => this.props.history.push("/EmployeeDocuments/" + this.props.match.params["id"])} title="Documents" > 2</button>
@@ -71,6 +75,7 @@ class EmployeeDocuments extends Component {
                                 <span className="glyphicon glyphicon-plus"></span>
                             </button>
                         </div>
+
 
                         <div className="docSearch">
                             <div className="col-md-2 form-group">
@@ -115,85 +120,95 @@ class EmployeeDocuments extends Component {
                             }}
                         >
                             <TableHeaderColumn dataField="Category" isKey={true} dataAlign="left" dataSort={true} width="20" > Category</TableHeaderColumn>
-                            <TableHeaderColumn dataField="DocumentDate" dataAlign="left" dataSort={true} width="30" > DocumentDate </TableHeaderColumn>
-                            <TableHeaderColumn dataField="UploadDate" dataAlign="left" dataSort={true} width="30" >Upload Date</TableHeaderColumn>
+                            <TableHeaderColumn dataField="DocumentDate" dataAlign="left" dataSort={true} width="30" dataFormat={this.DocDateFormatter.bind(this)} > DocumentDate </TableHeaderColumn>
+                            <TableHeaderColumn dataField="UploadDate" dataAlign="left" dataSort={true} width="30" dataFormat={this.UploadDateFormatter.bind(this)} >Upload Date</TableHeaderColumn>
                             <TableHeaderColumn dataField="Notes" dataAlign="left" dataSort={true} width="30" >Notes </TableHeaderColumn>
-                            <TableHeaderColumn dataField="Keywords" dataAlign="center" dataSort={true} width="15" >KeyWords</TableHeaderColumn>
+                            <TableHeaderColumn dataField="Keywords" dataAlign="left" dataSort={true} width="15" >KeyWords</TableHeaderColumn>
 
                         </BootstrapTable>
                     </div>
+
                     <div className="col-xs-12">
-                        <button type="submit" style={{ marginLeft: '96%', marginTop: '2%' }} className="btn  btn-default" onClick={() => this.props.history.push("/EmployeePayScale")} > Next </button>
+                        <button type="submit" style={{ marginLeft: '96%', marginTop: '2%' }} className="btn  btn-default" onClick={() => this.props.history.push("/EmployeePayScale/" + this.props.match.params["id"])} > Next </button>
                     </div>
 
                 </div>
 
                 <form onSubmit={this.handleSubmit.bind(this)} onChange={this.validate.bind(this)}  >
 
-                        <div className="modal fade" id="myModal" role="dialog">
-                            <div className="modal-dialog modal-lg">
-                                <div className="modal-content">
-                                    <div className="modal-header formheader" style={{ paddingLeft: '20px' }}>
-                                        <button type="button" className="close btnClose" data-dismiss="modal"> &times; </button>
-                                        <h4 className="modal-title">Add New Document</h4>
-                                    </div>
-                                    <div>
-                                        <div className="modal-body col-xs-12">
-                                            <div className="col-md-4 form-group">
-                                                <label> Document</label>
-                                                <input className="form-control" type="file" name="files" ref="document" />
-                                            </div>
+                    <div className="modal fade" id="myModal" role="dialog">
+                        <div className="modal-dialog modal-lg">
+                            <div className="modal-content">
+                                <div className="modal-header formheader" style={{ paddingLeft: '20px' }}>
+                                    <button type="button" className="close btnClose" data-dismiss="modal"> &times; </button>
+                                    <h4 className="modal-title">Add New Document</h4>
+                                </div>
+                                <div>
+                                    <div className="modal-body col-xs-12">
+                                        <div className="col-md-4 form-group">
+                                            <label> Document</label>
+                                            <input className="form-control" type="file" name="files" ref="document" />
+                                        </div>
 
-                                            <div className="col-md-4 form-group">
-                                                <label> Category </label>
-                                                <input className="form-control" type="text" name="Category" ref="category" />
-                                            </div>
+                                        <div className="col-md-4 form-group">
+                                            <label> Category </label>
+                                            <input className="form-control" type="text" name="Category" ref="category" />
+                                        </div>
 
-                                            <div className="col-md-4 form-group">
-                                                <label> Document Date</label>
-                                                <input className="form-control" type="date" name="documentdate" ref="documentdate" />
-                                            </div>
-
-                                            <div className="col-xs-12">
-                                                <div className="col-md-3 form-group">
-                                                    <label> Key Words </label>
-                                                    <input className="form-control" type="text" name="keywords" ref="keywords" />
-                                                </div>
-
-                                                <div className="col-md-8 form-group">
-                                                    <label>Notes</label>
-                                                    <input className="form-control" type="text" name="nptes" ref="notes" />
-                                                </div>
-                                            </div>
-
+                                        <div className="col-md-4 form-group">
+                                            <label> Document Date</label>
+                                            <input className="form-control" type="date" name="documentdate" ref="documentdate" />
                                         </div>
 
                                         <div className="col-xs-12">
-                                            <button className="btn btn-md btn-success btnSave" type="submit" name="submit" > Save </button>
+                                            <div className="col-md-3 form-group">
+                                                <label> Key Words </label>
+                                                <input className="form-control" type="text" name="keywords" ref="keywords" />
+                                            </div>
+
+                                            <div className="col-md-8 form-group">
+                                                <label>Notes</label>
+                                                <input className="form-control" type="text" name="nptes" ref="notes" />
+                                            </div>
                                         </div>
+
                                     </div>
 
-                                    <div className="modal-footer">
-                                        {/* <button type="button" className="btn btn-default" data-dismiss="modal">Close</button> */}
+                                    <div className="col-xs-12">
+                                        <button className="btn btn-md btn-success btnSave" type="submit" name="submit" > Save </button>
                                     </div>
+                                </div>
+
+                                <div className="modal-footer">
+                                    {/* <button type="button" className="btn btn-default" data-dismiss="modal">Close</button> */}
                                 </div>
                             </div>
                         </div>
-                    </form>
+                    </div>
+                </form>
 
-                    >
             </div>
 
-                )
+        )
+    }
+    DocDateFormatter(cell, row) {
+        return <p > {moment(row["DocumentDate"]).format("DD-MM-YYYY")} </p>
+    }
+    UploadDateFormatter(cell, row) {
+        return <p> {moment(row["UploadDate"]).format("DD-MM-YYYY")}</p>
+    }
+
+    AllDocuments() {
+        this.getEmployeeDocuments(this.state.currentPage, this.state.sizePerPage)
     }
 
     handleSubmit(e) {
 
-                    e.preventDefault();
+        e.preventDefault();
 
-                $(e.currentTarget.getElementsByClassName('form-control')).map((i, ele) => {
-                    ele.classList.remove("un-touched");
-                return null;
+        $(e.currentTarget.getElementsByClassName('form-control')).map((i, ele) => {
+            ele.classList.remove("un-touched");
+            return null;
         })
 
         if (!this.validate(e)) {
@@ -209,83 +224,81 @@ class EmployeeDocuments extends Component {
         data.append("Keywords", this.refs.keywords.value);
         data.append("Notes", this.refs.notes.value);
 
-
         var url = ApiUrl + "/api/Employee/AddDocument";
 
         try {
-                    MyAjaxForAttachments(
-                        url,
-                        (data) => {
-                            toast(" Employee Documents saved successfully!", {
-                                type: toast.TYPE.SUCCESS
-                            });
-                            $("button[name='submit']").show();
-                            this.props.history.push("/EmployeesList");
-                            return true;
-                        },
-                        (error) => {
-                            toast("An error occoured, please try again!", {
-                                type: toast.TYPE.ERROR,
-                                autoClose: false
-                            });
-                            $(".loader").hide();
-                            $("button[name='submit']").show();
-                            return false;
-                        },
-                        "POST",
-                        data
-                    );
-                }
-        catch (e) {
-                    toast("An error occoured, please try again!", {
-                        type: toast.TYPE.ERROR
+            MyAjaxForAttachments(
+                url,
+                (data) => {
+                    toast(" Employee Documents saved successfully!", {
+                        type: toast.TYPE.SUCCESS
                     });
-                $(".loader").hide();
+                    $("button[name='submit']").show();
+                    //this.props.history.push("/EmployeeDocuments/" + this.props.match.params["id"]);
+                    this.AllDocuments()
+                    return true;
+                },
+                (error) => {
+                    toast("An error occoured, please try again!", {
+                        type: toast.TYPE.ERROR,
+                        autoClose: false
+                    });
+                    $(".loader").hide();
+                    $("button[name='submit']").show();
+                    return false;
+                },
+                "POST",
+                data
+            );
+        }
+        catch (e) {
+            toast("An error occoured, please try again!", {
+                type: toast.TYPE.ERROR
+            });
+            $(".loader").hide();
             $("button[name='submit']").show();
             return false;
         }
-
-
     }
 
     validate(e) {
         var success = ValidateForm(e);
-
         return success;
     }
 
     SearchClick() {
+        this.setState({
+            category: this.refs.category.value,
+            documentDate: this.refs.documentDate.value,
+            uploadDate: this.refs.uploadDate.value,
+            notes: this.refs.notes.value,
+            keywords: this.refs.keywords.value
+        }, () => {
+            this.getEmployeeDocuments(this.state.currentPage, this.state.sizePerPage);
+        })
 
-                    this.setState({
-                        category: this.refs.category.value,
-                        documentDate: this.refs.documentDate.value,
-                        uploadDate: this.refs.uploadDate.value,
-                        notes: this.resf.notes.value,
-                        keywords: this.refs.keywords.value
-                    }, () => {
-                        this.getEmployeeDocuments(this.state.currentPage, this.state.sizePerPage);
-                    })
+    
 
-                }
+    }
 
-                onSortChange(sortCol, sortDir) {
-                    sortDir = this.state.sortCol === sortCol && this.state.sortDir === "asc" ? "desc" : "asc";
-                this.setState({
-                    sortCol: sortCol,
+    onSortChange(sortCol, sortDir) {
+        sortDir = this.state.sortCol === sortCol && this.state.sortDir === "asc" ? "desc" : "asc";
+        this.setState({
+            sortCol: sortCol,
             sortDir: sortDir
         }, () => {
-                    this.getEmployeeDocuments(this.state.currentPage, this.state.sizePerPage)
-                });
+            this.getEmployeeDocuments(this.state.currentPage, this.state.sizePerPage)
+        });
     }
 
     onPageChange(page, sizePerPage) {
-                    this.getEmployeeDocuments(page, sizePerPage)
-                }
+        this.getEmployeeDocuments(page, sizePerPage)
+    }
 
-                onSizePerPageList(sizePerPage) {
-                    this.getEmployeeDocuments(this.state.currentPage, sizePerPage)
-                }
+    onSizePerPageList(sizePerPage) {
+        this.getEmployeeDocuments(this.state.currentPage, sizePerPage)
+    }
 
-                }
+}
 
 export default EmployeeDocuments;

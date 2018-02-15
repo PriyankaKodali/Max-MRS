@@ -13,28 +13,38 @@ class Doctor extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            Country: null,
-            Countries: [],
-            State: null,
-            States: [],
-            City: null,
-            Cities: [],
-            Client: null,
-            Clients: [],
-            VoiceGrade: null,
-            JobLevel: null,
-            DictationMode: null,
-            Specialities:[],
-            Speciality:'',
-            removeSelected: true,
-            DoctorGroups:[],
-            DoctorGroup:null,
-            secondaryNum:null
-        
+            Country: null, Countries: [], State: null, States: [],
+            City: null, Cities: [], Client: null, Clients: [], VoiceGrade: null, JobLevel: null,
+            DictationMode: null, Specialities: [], Speciality: '', removeSelected: true, DoctorGroups: [],
+            DoctorGroup: null, secondaryNum: null, Doctor: [],
         }
     }
 
     componentWillMount() {
+
+        this.setState({ DoctorId: this.props.match.params["id"] }, () => {
+            if (this.props.match.params["id"] != null) {
+                $.ajax({
+                    url: ApiUrl + "/api/Doctors/GetDoctor?doctor_Id=" + this.props.match.params["id"],
+                    type: "get",
+                    success: (data) => {
+                        this.setState({
+                            Doctor: data["doctor"], Speciality: data["specialities"],
+                            Client: { value: data["doctor"]["Client_Id"], label: data["doctor"]["Client"] },
+                            Country: { value: data["doctor"]["Country_Id"], label: data["doctor"]["Country"] },
+                            State: { value: data["doctor"]["State_Id"], label: data["doctor"]["State"] },
+                            City: { value: data["doctor"]["City_Id"], label: data["doctor"]["City"] },
+                            DictationMode: { value: data["doctor"]["DictationMode"], label: data["doctor"]["DictationMode"] },
+                            VoiceGrade: { value: data["doctor"]["VoiceGrade"], label: data["doctor"]["VoiceGrade"] },
+                            JobLevel: { value: data["doctor"]["JobLevel"], label: data["doctor"]["JobLevel"] },
+                            DoctorGroup: { value: data["doctor"]["DoctorGroup_Id"], label: data["doctor"]["DoctorGroup"] }
+                        })
+                    }
+                })
+            }
+        })
+
+
         $.ajax({
             url: ApiUrl + "/api/MasterData/GetCountries",
             type: "get",
@@ -43,18 +53,18 @@ class Doctor extends Component {
 
         $.ajax({
             url: ApiUrl + "/api/MasterData/GetSpecialties",
-            type:"get",
-            success: (data) => {this.setState({ Specialities: data["specialties"]})}
+            type: "get",
+            success: (data) => { this.setState({ Specialities: data["specialties"] }) }
         });
         $.ajax({
             url: ApiUrl + "/api/MasterData/GetDoctorGroups",
-            type:"get",
-            success:(data)=> {this.setState({DoctorGroups: data["doctorGroups"]})}
+            type: "get",
+            success: (data) => { this.setState({ DoctorGroups: data["doctorGroups"] }) }
         });
         $.ajax({
             url: ApiUrl + "/api/MasterData/GetAllClients",
             type: "get",
-            success:(data)=> {this.setState({Clients: data["clients"]})}
+            success: (data) => { this.setState({ Clients: data["clients"] }) }
         })
     }
 
@@ -64,7 +74,7 @@ class Doctor extends Component {
 
     render() {
         return (
-            <div className="headercon">
+            <div className="headercon" key={this.state.Doctor}>
                 <div className="container">
                     <div className="col-xs-12 headerstyle" >
                         <h3 className="col-xs-11 Empheading" style={{ paddingLeft: '10px' }}>Personal Details</h3>
@@ -85,7 +95,7 @@ class Doctor extends Component {
                                         <span className="input-group-addon" >
                                             <span className="glyphicon glyphicon-user"></span>
                                         </span>
-                                        <input className="col-md-2 form-control" type="text" name="Salutation" placeholder="Salutation" autoComplete="off" ref="salutation" />
+                                        <input className="col-md-2 form-control" type="text" name="Salutation" placeholder="Salutation" autoComplete="off" ref="salutation" defaultValue={this.state.Doctor["Salutation"]} />
                                     </div>
                                 </div>
                             </div>
@@ -97,7 +107,7 @@ class Doctor extends Component {
                                         <span className="input-group-addon" >
                                             <span className="glyphicon glyphicon-user"></span>
                                         </span>
-                                        <input className="col-md-3 form-control" type="text" name="FirstName" placeholder="First Name" autoComplete="off" ref="firstname" />
+                                        <input className="col-md-3 form-control" type="text" name="FirstName" placeholder="First Name" autoComplete="off" ref="firstname" defaultValue={this.state.Doctor["FirstName"]} />
                                     </div>
                                 </div>
                             </div>
@@ -109,7 +119,7 @@ class Doctor extends Component {
                                         <span className="input-group-addon" >
                                             <span className="glyphicon glyphicon-user"></span>
                                         </span>
-                                        <input className="col-md-3 form-control" type="text" name="MiddleName" placeholder="Middle Name" autoComplete="off" ref="middlename" />
+                                        <input className="col-md-3 form-control" type="text" name="MiddleName" placeholder="Middle Name" autoComplete="off" ref="middlename" defaultValue={this.state.Doctor["MiddleName"]} />
                                     </div>
                                 </div>
                             </div>
@@ -121,7 +131,7 @@ class Doctor extends Component {
                                         <span className="input-group-addon" >
                                             <span className="glyphicon glyphicon-user"></span>
                                         </span>
-                                        <input className="col-md-3 form-control" type="text" name="LastName" placeholder="Last Name" autoComplete="off" ref="lastname" />
+                                        <input className="col-md-3 form-control" type="text" name="LastName" placeholder="Last Name" autoComplete="off" ref="lastname" defaultValue={this.state.Doctor["LastName"]} />
                                     </div>
                                 </div>
                             </div>
@@ -136,7 +146,7 @@ class Doctor extends Component {
                                         <span className="input-group-addon">
                                             <span className="glyphicon glyphicon-phone"></span>
                                         </span>
-                                        <input className="col-md-3 form-control" name="PhoneNumber" type="text" placeholder="Primary Phone Number" autoComplete="off" ref="primaryNumber" />
+                                        <input className="col-md-3 form-control" name="PhoneNumber" type="text" placeholder="Primary Phone Number" autoComplete="off" ref="primaryNumber" defaultValue={this.state.Doctor["PhoneNumber"]} />
                                     </div>
                                 </div>
                             </div>
@@ -148,7 +158,7 @@ class Doctor extends Component {
                                         <span className="input-group-addon">
                                             <span className="glyphicon glyphicon-phone"></span>
                                         </span>
-                                        <input className="col-md-3 form-control" name="secondaryNum" type="text" placeholder="Secondary Phone Number" autoComplete="off" ref="secondaryNum" />
+                                        <input className="col-md-3 form-control" name="secondaryNum" type="text" placeholder="Secondary Phone Number" autoComplete="off" ref="secondaryNum" defaultValue={this.state.Doctor["SecondaryNumber"]} />
                                     </div>
                                 </div>
                             </div>
@@ -160,7 +170,7 @@ class Doctor extends Component {
                                         <span className="input-group-addon">
                                             <span className="glyphicon glyphicon-envelope"></span>
                                         </span>
-                                        <input className="col-md-3 form-control" name="email" type="text" placeholder="Email" autoComplete="off" ref="email" />
+                                        <input className="col-md-3 form-control" name="email" type="text" placeholder="Email" autoComplete="off" ref="email" defaultValue={this.state.Doctor["Email"]} />
                                     </div>
                                 </div>
                             </div>
@@ -190,7 +200,7 @@ class Doctor extends Component {
                                         <span className="input-group-addon">
                                             <span className="glyphicon glyphicon-map-marker"></span>
                                         </span>
-                                        <input className="col-md-5 form-control" name="AddressLine1" type="text" ref="addressLine1" placeholder="Address " autoComplete="off" />
+                                        <input className="col-md-5 form-control" name="AddressLine1" type="text" ref="addressLine1" placeholder="Address " autoComplete="off" defaultValue={this.state.Doctor["Addressline1"]} />
                                     </div>
                                 </div>
                             </div>
@@ -201,7 +211,7 @@ class Doctor extends Component {
                                         <span className="input-group-addon">
                                             <span className="glyphicon glyphicon-map-marker"></span>
                                         </span>
-                                        <input className="col-md-5 form-control" type="text" name="AddressLine2" ref="addressLine2" placeholder="Address" autoComplete="off" />
+                                        <input className="col-md-5 form-control" type="text" name="AddressLine2" ref="addressLine2" placeholder="Address" autoComplete="off" defaultValue={this.state.Doctor["Addressline2"]} />
                                     </div>
                                 </div>
                             </div>
@@ -251,7 +261,7 @@ class Doctor extends Component {
                                         <span className="input-group-addon">
                                             <span className="glyphicon glyphicon-home"></span>
                                         </span>
-                                        <input className="form-control" type="text" name="zip" ref="zip" placeholder="Postal code" />
+                                        <input className="form-control" type="text" name="zip" ref="zip" placeholder="Postal code" defaultValue={this.state.Doctor["Zip"]} />
                                     </div>
                                 </div>
                             </div>
@@ -265,10 +275,10 @@ class Doctor extends Component {
                             <div className="col-xs-3">
                                 <label> Dictation Mode </label>
                                 <div className="form-group">
-                                        <Select className="form-control" name="dictatioMode" ref="dictationMode" placeholder="Dictation Mode" value={this.state.DictationMode}
-                                            options={[{ value: 'DictaPhone', label: 'DictaPhone' }, { value: 'Toll-Free', label: 'Toll-Free' },
-                                            { value: 'DictaPhone & TollFree', label: 'DictaPhone & TollFree' }, { value: 'Email', label: 'Email' }]}
-                                            onChange={this.DictationModeChanged.bind(this)} />
+                                    <Select className="form-control" name="dictatioMode" ref="dictationMode" placeholder="Dictation Mode" value={this.state.DictationMode}
+                                        options={[{ value: 'DictaPhone', label: 'DictaPhone' }, { value: 'Toll-Free', label: 'Toll-Free' },
+                                        { value: 'DictaPhone & TollFree', label: 'DictaPhone & TollFree' }, { value: 'Email', label: 'Email' }]}
+                                        onChange={this.DictationModeChanged.bind(this)} />
                                 </div>
                             </div>
 
@@ -279,7 +289,7 @@ class Doctor extends Component {
                                         <span className="input-group-addon">
                                             <span className="glyphicon glyphicon-user"></span>
                                         </span>
-                                        <input className="form-control" name="IDigitalId" type="text" ref="idigitalId" placeholder=" IDigital Id" />
+                                        <input className="form-control" name="IDigitalId" type="text" ref="idigitalId" placeholder=" IDigital Id" defaultValue={this.state.Doctor["IdigitalId"]} />
                                     </div>
                                 </div>
                             </div>
@@ -291,7 +301,7 @@ class Doctor extends Component {
                                         <span className="input-group-addon">
                                             <span className="glyphicon glyphicon-user"></span>
                                         </span>
-                                        <input className="form-control" name="IDigitalAuthorId" type="text" ref="idigitalAuthorId" placeholder=" IDigital Author Id" />
+                                        <input className="form-control" name="IDigitalAuthorId" type="text" ref="idigitalAuthorId" placeholder=" IDigital Author Id" defaultValue={this.state.Doctor["IdigitalAuthorId"]} />
                                     </div>
                                 </div>
                             </div>
@@ -299,9 +309,9 @@ class Doctor extends Component {
                             <div className="col-xs-3">
                                 <label> Job Level</label>
                                 <div className="form-group">
-                                        <Select className="form-control" name="jobLevel" ref="jobLevel" placeholder="select Job level" value={this.state.JobLevel}
-                                            options={[{ value: 'L1', label: 'L1' }, { value: 'L1-L3', label: 'L1-L3' }, { value: 'L1-L2-L3', label: 'L1-L2-L3' }]}
-                                            onChange={this.JobLevelChanged.bind(this)} />
+                                    <Select className="form-control" name="jobLevel" ref="jobLevel" placeholder="select Job level" value={this.state.JobLevel}
+                                        options={[{ value: 'L1', label: 'L1' }, { value: 'L1-L3', label: 'L1-L3' }, { value: 'L1-L2-L3', label: 'L1-L2-L3' }]}
+                                        onChange={this.JobLevelChanged.bind(this)} />
                                 </div>
                             </div>
 
@@ -312,30 +322,30 @@ class Doctor extends Component {
                             <div className="col-xs-3">
                                 <label>Voice Grade</label>
                                 <div className="form-group">
-                                        <Select className="form-control" name="VoiceGrade" ref="voicegrade" placeholder="Voice Grade" value={this.state.VoiceGrade}
-                                            options={[{ value: 'A', label: 'A' }, { value: 'B', label: 'B' }, { value: 'C', label: 'C' }, { value: 'D', label: 'D' }]}
-                                            onChange={this.VoiceGradeChanged.bind(this)} />
+                                    <Select className="form-control" name="VoiceGrade" ref="voicegrade" placeholder="Voice Grade" value={this.state.VoiceGrade}
+                                        options={[{ value: 'A', label: 'A' }, { value: 'B', label: 'B' }, { value: 'C', label: 'C' }, { value: 'D', label: 'D' }]}
+                                        onChange={this.VoiceGradeChanged.bind(this)} />
                                 </div>
                             </div>
 
                             <div className="col-xs-3">
                                 <label> Macro Percent</label>
                                 <div className="form-group">
-                                    <input className="form-control" name="MacroPercent" type="number" ref="macroPercent" />
+                                    <input className="form-control" name="MacroPercent" type="number" ref="macroPercent" defaultValue={this.state.Doctor["MacroPercent"]} />
                                 </div>
                             </div>
                             <div className="col-xs-3">
                                 <label> Doctor Group</label>
                                 <div className="form-group">
-                                      <Select className="form-control" name="doctorgroup" ref="doctorgroup" placeholder="Doctor Group" value={this.state.DoctorGroup} options={this.state.DoctorGroups} onChange={this.DoctorGroupChanged.bind(this)} />
+                                    <Select className="form-control" name="doctorgroup" ref="doctorgroup" placeholder="Doctor Group" value={this.state.DoctorGroup} options={this.state.DoctorGroups} onChange={this.DoctorGroupChanged.bind(this)} />
                                 </div>
                             </div>
                             <div className="col-xs-12">
                                 <label> Speciality</label>
                                 <div className="form-group">
-                                         <Select className="form-control" name="speciality" ref="specialities" placeholder="Select Speciality" value={this.state.Speciality} options={this.state.Specialities} 
-                                         onChange={this.specialityChanged.bind(this)} multi
-                                         />
+                                    <Select className="form-control" name="speciality" ref="specialities" placeholder="Select Speciality" value={this.state.Speciality} options={this.state.Specialities}
+                                        onChange={this.specialityChanged.bind(this)} multi
+                                    />
                                 </div>
                             </div>
                         </div>
@@ -369,13 +379,13 @@ class Doctor extends Component {
         showErrorsForInput(this.refs.jobLevel.wrapper, null);
     }
 
-    specialityChanged(val){
-        this.setState({ Speciality: val || ''})
+    specialityChanged(val) {
+        this.setState({ Speciality: val || '' })
         showErrorsForInput(this.refs.specialities.wrapper, null);
     }
 
-    DoctorGroupChanged(val){
-        this.setState({ DoctorGroup: val || ''})
+    DoctorGroupChanged(val) {
+        this.setState({ DoctorGroup: val || '' })
     }
 
 
@@ -458,7 +468,12 @@ class Doctor extends Component {
         data.append("specialities", JSON.stringify(this.state.Speciality));
 
 
-        let url = ApiUrl + "api/Doctors/AddDoctor"
+        if (this.props.match.params["id"] != null) {
+            var url = ApiUrl + "api/Doctors/UpdateDoctor?doctor_Id=" + this.props.match.params["id"]
+        }
+        else {
+            var url = ApiUrl + "api/Doctors/AddDoctor"
+        }
 
         try {
             MyAjaxForAttachments(
@@ -525,8 +540,8 @@ class Doctor extends Component {
             success = false;
             showErrorsForInput(this.refs.dictationMode.wrapper, ["Please select dictation mode"])
         }
-        if( this.state.Speciality.length == 0 ){
-            success=false;
+        if (this.state.Speciality.length == 0) {
+            success = false;
             showErrorsForInput(this.refs.specialities.wrapper, ["please select specialities"])
         }
 

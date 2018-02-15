@@ -98,16 +98,16 @@ class EmployeeRegistration extends Component {
                         this.props.match.params["id"] != null ?
                             <div>
                                 <hr className="col-md-4" />
-                                <button className="col-md-3 btn btn-default btn-circle"  onClick={() => this.props.history.push("/EmployeeDocuments/" +  this.props.match.params["id"])} title="Documents" > 2</button>
+                                <button className="col-md-3 btn btn-default btn-circle" onClick={() => this.props.history.push("/EmployeeDocuments/" + this.props.match.params["id"])} title="Documents" > 2</button>
                                 <hr className="col-md-4" />
-                                <button className="col-md-3 btn btn-default btn-circle"  onClick={() => this.props.history.push("/EmployeePayScale/" +  this.props.match.params["id"])} title="PayScales" > 3 </button>
+                                <button className="col-md-3 btn btn-default btn-circle" onClick={() => this.props.history.push("/EmployeePayScale/" + this.props.match.params["id"])} title="PayScales" > 3 </button>
                             </div>
                             :
                             <div>
                                 <hr className="col-md-4" />
                                 <button className="col-md-3 btn btn-default btn-circle" title="Documents" > 2</button>
                                 <hr className="col-md-4" />
-                                <button className="col-md-3 btn btn-default btn-circle"  title="PayScales" > 3</button>
+                                <button className="col-md-3 btn btn-default btn-circle" title="PayScales" > 3</button>
 
                             </div>
                     }
