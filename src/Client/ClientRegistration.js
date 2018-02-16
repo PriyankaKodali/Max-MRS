@@ -359,7 +359,7 @@ class ClientRegistration extends Component {
     }
 
     isActiveChanged(val) {
-        this.setState({ IsActive: !this.state.IsActive })
+        this.setState({ IsActive: !this.state.Client["IsActive"] })
     }
 
     AddClientLocations() {

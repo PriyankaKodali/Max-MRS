@@ -31,7 +31,6 @@ class ClientEmpRegistration extends React.Component {
         setUnTouched(document);
     }
 
-
     componentWillMount() {
        $.ajax({
             url: ApiUrl + "/api/MasterData/GetAllClients",

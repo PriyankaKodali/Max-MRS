@@ -45,7 +45,7 @@ class EmployeePayScale extends Component {
         return (
             <div className="headercon" key={this.state.EmployeePayScale}>
 
-                <button className="col-md-3 btn btn-default btn-circle" style={{ marginTop: '0.5%', marginLeft: '10%' }} onClick={() => this.props.history.push("/EmployeeRegistration")} title="General Details" > 1</button>
+                <button className="col-md-3 btn btn-default btn-circle" style={{ marginTop: '0.5%', marginLeft: '10%' }}  onClick={() => this.props.history.push("/EmployeeRegistration/" + this.props.match.params["id"])}  title="General Details" > 1</button>
                 <hr className="col-md-4" />
                 <button className="col-md-3 btn btn-default btn-circle" onClick={() => this.props.history.push("/EmployeeDocuments/" + this.props.match.params["id"])} title="Documents" > 2</button>
                 <hr className="col-md-4" />

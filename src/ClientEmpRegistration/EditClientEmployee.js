@@ -31,10 +31,10 @@ class EditClientEmployee extends Component {
             }
         });
         
-        $.ajax({
+    $.ajax({
             url: ApiUrl + "/api/MasterData/GetAllClients",
             type: "get",
-            success:(data)=> {this.setState({Clients: data["clients"]})}
+            success: (data) => { this.setState({ Clients: data["clients"] }) }
         })
     }
 

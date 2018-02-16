@@ -15,7 +15,7 @@ class EmployeeDocuments extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            Documents: [], category: '', notes: '', keywords: '', uploadDate: '',
+            Documents: [], notes: '', keywords: '', uploadDate: '', category: '',
             documentDate: '', sortCol: 'Category', sortDir: 'asc', currentPage: 1,
             sizePerPage: 10, dataTotalSize: 0, EmpName: null, EmpNumber: null, EmployeeId: null
         }
@@ -60,13 +60,13 @@ class EmployeeDocuments extends Component {
     render() {
         return (
             <div className="headercon" key={this.state.EmpName}>
-                <button className="col-md-3 btn btn-default btn-circle" style={{ marginLeft: '10%' }} onClick={() => this.props.history.push("/EmployeeRegistration")} title="General Details" > 1</button>
+                <button className="col-md-3 btn btn-default btn-circle" style={{ marginLeft: '10%' }} onClick={() => this.props.history.push("/EmployeeRegistration/" + this.props.match.params["id"])} title="General Details" > 1</button>
                 <hr className="col-md-4" />
                 <button className="col-md-3 btn btn-default btn-circle" onClick={() => this.props.history.push("/EmployeeDocuments/" + this.props.match.params["id"])} title="Documents" > 2</button>
                 <hr className="col-md-4" />
                 <button className="col-md-3 btn btn-default btn-circle" onClick={() => this.props.history.push("/EmployeePayScale/" + this.props.match.params["id"])} title="PayScales" > 3</button>
 
-                <div className="container">
+                <div className="container" id="myDocView">
 
                     <div className="col-md-12">
                         <h3 className="col-md-11 formheader" style={{ paddingLeft: '20px', marginTop: '1%' }}> Documents</h3>
@@ -76,29 +76,35 @@ class EmployeeDocuments extends Component {
                             </button>
                         </div>
 
+                        
+
 
                         <div className="docSearch">
-                            <div className="col-md-2 form-group">
-                                <label>Name:</label> {this.state.EmpName}
-                            </div>
-                            <div className="col-md-2 form-group">
-                                <input className="col-md-2 form-control" type="text" name="Category" placeholder="Category" autoComplete="off" ref="category" onChange={this.SearchClick.bind(this)} />
-                            </div>
+                            <div className="col-xs-12">
+                                <div className="col-md-4 form-group">
+                                    <label>Name:</label> {this.state.EmpName} <span /> | <span /> <label> EmpNumber: </label> {this.state.EmpNumber}
+                                </div>
+                                <div className="col-md-3 form-group">
+                                    <input className="col-md-3 form-control" type="text" name="Category" placeholder="Category" autoComplete="off" ref="catg" onChange={this.SearchClick.bind(this)} />
+                                </div>
+                                <div className="col-md-3 form-group">
+                                    <input className="col-md-3 form-control" type="date" name="DocumentDate" placeholder="Documnet Date" autoComplete="off" ref="documentDate" onChange={this.SearchClick.bind(this)} />
+                                </div>
 
-                            <div className="col-md-2 form-group">
-                                <input className="col-md-2 form-control" type="date" name="DocumentDate" placeholder="Documnet Date" autoComplete="off" ref="documentDate" onChange={this.SearchClick.bind(this)} />
-                            </div>
+                                <div className="col-md-3 form-group">
+                                    <input className="col-md-3 form-control" type="date" name="UploadDate" placeholder="Upload Date" autoComplete="off" ref="uploadDate" onChange={this.SearchClick.bind(this)} />
+                                </div>
 
-                            <div className="col-md-2 form-group">
-                                <input className="col-md-2 form-control" type="date" name="PhoneNum" placeholder="Upload Date" autoComplete="off" ref="uploadDate" onChange={this.SearchClick.bind(this)} />
-                            </div>
+                                <div className="col-md-3 form-group">
+                                    <input className="col-md-3 form-control" type="text" name="Notes" placeholder="Notes" autoComplete="off" ref="notessearch" onChange={this.SearchClick.bind(this)} />
+                                </div>
 
-                            <div className="col-md-2 form-group">
-                                <input className="col-md-2 form-control" type="text" name="Notes" placeholder="Notes" autoComplete="off" ref="notes" onChange={this.SearchClick.bind(this)} />
-                            </div>
-
-                            <div className="col-md-2 form-group">
-                                <input className="col-md-2 form-control" type="text" name="Keywords" placeholder="Keywords" autoComplete="off" ref="keywords" onChange={this.SearchClick.bind(this)} />
+                                <div className="col-md-3 form-group">
+                                    <input className="col-md-2 form-control" type="text" name="Keywords" placeholder="Keywords" autoComplete="off" ref="keywordssearch" onChange={this.SearchClick.bind(this)} />
+                                </div>
+                                <div className="col-xs-2 form-group">
+                                        <input type="button" className="btn btn-default"  value="Clear" onClick={this.clearClick.bind(this)} />
+                            </div> 
                             </div>
                         </div>
                     </div>
@@ -140,35 +146,35 @@ class EmployeeDocuments extends Component {
                         <div className="modal-dialog modal-lg">
                             <div className="modal-content">
                                 <div className="modal-header formheader" style={{ paddingLeft: '20px' }}>
-                                    <button type="button" className="close btnClose" data-dismiss="modal"> &times; </button>
+                                    <button type="button" className="close btnClose" data-dismiss="modal" data-target="#myDocView"> &times; </button>
                                     <h4 className="modal-title">Add New Document</h4>
                                 </div>
                                 <div>
                                     <div className="modal-body col-xs-12">
                                         <div className="col-md-4 form-group">
                                             <label> Document</label>
-                                            <input className="form-control" type="file" name="files" ref="document" />
+                                            <input className="form-control" type="file" name="files" ref="document" autocomplete="off" />
                                         </div>
 
                                         <div className="col-md-4 form-group">
                                             <label> Category </label>
-                                            <input className="form-control" type="text" name="Category" ref="category" />
+                                            <input className="form-control" type="text" name="Category" ref="category" autocomplete="off" />
                                         </div>
 
                                         <div className="col-md-4 form-group">
                                             <label> Document Date</label>
-                                            <input className="form-control" type="date" name="documentdate" ref="documentdate" />
+                                            <input className="form-control" type="date" name="documentdate" ref="documentdate" autocomplete="off" />
                                         </div>
 
                                         <div className="col-xs-12">
                                             <div className="col-md-3 form-group">
                                                 <label> Key Words </label>
-                                                <input className="form-control" type="text" name="keywords" ref="keywords" />
+                                                <input className="form-control" type="text" name="keywords" ref="keywords" autocomplete="off" />
                                             </div>
 
                                             <div className="col-md-8 form-group">
                                                 <label>Notes</label>
-                                                <input className="form-control" type="text" name="nptes" ref="notes" />
+                                                <input className="form-control" type="text" name="nptes" ref="notes" autocomplete="off" />
                                             </div>
                                         </div>
 
@@ -198,8 +204,18 @@ class EmployeeDocuments extends Component {
         return <p> {moment(row["UploadDate"]).format("DD-MM-YYYY")}</p>
     }
 
-    AllDocuments() {
-        this.getEmployeeDocuments(this.state.currentPage, this.state.sizePerPage)
+    // AllDocuments() {
+    //     this.getEmployeeDocuments(this.state.currentPage, this.state.sizePerPage)
+    // }
+
+    RemoveInputs() {
+        this.refs.category.value = "";
+        this.refs.notes.value = "";
+        this.refs.keywords.value = "";
+        this.refs.documentDate.value = "";
+        //  this.refs.files.value="";
+        this.getEmployeeDocuments(this.state.currentPage, this.state.sizePerPage);
+
     }
 
     handleSubmit(e) {
@@ -235,7 +251,8 @@ class EmployeeDocuments extends Component {
                     });
                     $("button[name='submit']").show();
                     //this.props.history.push("/EmployeeDocuments/" + this.props.match.params["id"]);
-                    this.AllDocuments()
+                    this.RemoveInputs();
+                    //  this.AllDocuments()
                     return true;
                 },
                 (error) => {
@@ -268,17 +285,31 @@ class EmployeeDocuments extends Component {
 
     SearchClick() {
         this.setState({
-            category: this.refs.category.value,
+            category: this.refs.catg.value,
             documentDate: this.refs.documentDate.value,
             uploadDate: this.refs.uploadDate.value,
-            notes: this.refs.notes.value,
-            keywords: this.refs.keywords.value
+            notes: this.refs.notessearch.value,
+            keywords: this.refs.keywordssearch.value
         }, () => {
             this.getEmployeeDocuments(this.state.currentPage, this.state.sizePerPage);
         })
+    }
 
-    
-
+    clearClick() {
+        this.refs.catg.value = "";
+        this.refs.documentDate.value = "";
+        this.refs.uploadDate.value = "";
+        this.refs.notessearch.value = "";
+        this.refs.keywordssearch.value = "";
+        this.setState({
+            category: this.refs.catg.value,
+            documentDate: this.refs.documentDate.value,
+            uploadDate: this.refs.uploadDate.value,
+            notes: this.refs.notessearch.value,
+            keywords: this.refs.keywordssearch.value
+        }, () => {
+            this.getEmployeeDocuments(this.state.currentPage, this.state.sizePerPage);
+        })
     }
 
     onSortChange(sortCol, sortDir) {

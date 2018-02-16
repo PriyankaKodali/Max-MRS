@@ -229,11 +229,11 @@ class ClientLocation extends Component {
 
     isInvoiceChanged() {
         this.props.InvoiceChanged(this.refs.isInvoice)
-        this.setState({ IsInvoice: !this.state.IsInvoice })
+        this.setState({ IsInvoice: !this.props.location["IsInvoice"] })
     }
 
 
-  // if (this.props.location["LocationId"] == "") {
+     // if (this.props.location["LocationId"] == "") {
         //     <input type="hidden" name="locationId" ref="locationId" value={this.state.newLoc.length} />
         // }
         // else {

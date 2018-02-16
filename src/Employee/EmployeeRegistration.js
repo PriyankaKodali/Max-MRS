@@ -38,8 +38,8 @@ class EmployeeRegistration extends Component {
                             Employee: data["employee"],
                             BloodGroup: { value: data["employee"]["BloodGroup"], label: data["employee"]["BloodGroup"] },
                             Country: { value: data["employee"]["Country"], label: data["employee"]["CountryName"] },
-                            State: { value: data["employee"]["State"], label: data["employee"]["StateName"] },
-                            City: { value: data["employee"]["City"], label: data["employee"]["CityName"] },
+                            State: { value: data["employee"]["StateId"], label: data["employee"]["StateName"] },
+                            City: { value: data["employee"]["CityId"], label: data["employee"]["CityName"] },
                             EmpType: { value: data["employee"]["EmploymentType"], label: data["employee"]["EmploymentType"] },
                             Designation: { value: data["employee"]["DesgId"], label: data["employee"]["DesgName"] },
                             Department: { value: data["employee"]["DeptId"], label: data["employee"]["DeptName"] },
@@ -47,10 +47,6 @@ class EmployeeRegistration extends Component {
                             Manager: { value: data["employee"]["ManagerId"], label: data["employee"]["ManagerName"] },
                             Gender: { value: data["employee"]["Gender"], label: data["employee"]["Gender"] },
                         })
-
-                        //    console.log(this.state.Employee["DOB"]);
-                        console.log(this.state.Employee["DOJ"]);
-
                     }
                 })
             }
@@ -91,12 +87,11 @@ class EmployeeRegistration extends Component {
     render() {
         return (
             <div className="headercon" key={this.state.Employee}>
-                <div className="container">
-                    <button className="col-md-3 btn btn-default btn-circle" style={{ marginLeft: '10%' }} title="General Details" > 1</button>
-
+               
                     {
                         this.props.match.params["id"] != null ?
                             <div>
+                                <button className="col-md-3 btn btn-default btn-circle" style={{ marginLeft: '10%' }} onClick={() => this.props.history.push("/EmployeeRegistration/" + this.props.match.params["id"])} title="General Details" > 1</button>
                                 <hr className="col-md-4" />
                                 <button className="col-md-3 btn btn-default btn-circle" onClick={() => this.props.history.push("/EmployeeDocuments/" + this.props.match.params["id"])} title="Documents" > 2</button>
                                 <hr className="col-md-4" />
@@ -104,6 +99,7 @@ class EmployeeRegistration extends Component {
                             </div>
                             :
                             <div>
+                                <button className="col-md-3 btn btn-default btn-circle" style={{ marginLeft: '10%' }} onClick={() => this.props.history.push("/EmployeeRegistration/")} title="General Details" > 1</button>
                                 <hr className="col-md-4" />
                                 <button className="col-md-3 btn btn-default btn-circle" title="Documents" > 2</button>
                                 <hr className="col-md-4" />
@@ -112,7 +108,7 @@ class EmployeeRegistration extends Component {
                             </div>
                     }
 
-
+                     <div className="container">
 
                     <form onSubmit={this.handleSubmit.bind(this)} onChange={this.validate.bind(this)} >
 

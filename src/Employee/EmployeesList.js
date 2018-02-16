@@ -152,31 +152,30 @@ class EmployeesList extends Component {
 
     SearchClick() {
         this.setState({
-            empNum:  this.refs.empNum.value,
-            name:this.refs.name.value,
-            email:  this.refs.email.value,
-            phone:this.refs.phoneNum.value,
+            empNum: this.refs.empNum.value,
+            name: this.refs.name.value,
+            email: this.refs.email.value,
+            phone: this.refs.phoneNum.value,
             designation: this.refs.designation.value
-        },() =>{
-             this.getEmployeesList(this.state.currentPage, this.state.sizePerPage);
+        }, () => {
+            this.getEmployeesList(this.state.currentPage, this.state.sizePerPage);
         })
     }
 
     clearClick() {
-        this.refs.name.value="";
-        this.refs.empNum.value="";
-        this.refs.email.value= "";
-        this.refs.phoneNum.value="";
-        this.refs.designation.value="";
-        
+        this.refs.name.value = "";
+        this.refs.empNum.value = "";
+        this.refs.email.value = "";
+        this.refs.phoneNum.value = "";
+        this.refs.designation.value = "";
         this.setState({
-            empNum:  "",
-            name:"",
-            email:  "",
-            phone:"",
-            designation: ""
-        },() =>{
-             this.getEmployeesList(this.state.currentPage, this.state.sizePerPage);
+            empNum: this.refs.empNum.value,
+            name: this.refs.name.value,
+            email: this.refs.email.value,
+            phone: this.refs.phoneNum.value,
+            designation: this.refs.designation.value
+        }, () => {
+            this.getEmployeesList(this.state.currentPage, this.state.sizePerPage);
         })
     }
 

@@ -99,9 +99,9 @@ class ClientsList extends Component {
                                 <input className="col-md-3 form-control" type="text" name="clientType" placeholder="Client Type" autoComplete="off" ref="clienttype" onChange={this.SearchClick.bind(this)} />
                             </div>
 
-                            {/* <div className="col-md-2 button-block text-center">
+                            <div className="col-md-2 button-block text-center">
                                 <input type="button" className="btn btn-default" value="Clear" onClick={this.ClearClick.bind(this)} />
-                            </div> */}
+                            </div>
                         </form>
 
                         : <div />
@@ -142,30 +142,32 @@ class ClientsList extends Component {
     }
 
     SearchClick() {
-        // this.setState({
-        //     name: this.refs.clientName.value,
-        //     email: this.refs.email.value,
-        //     phone: this.refs.phoneNum.value,
-        //     fax: this.refs.fax.value,
-        //     clientType: this.refs.clienttype.value
-        // })
-
-        this.state.name = this.refs.clientName.value;
-        this.state.email = this.refs.email.value;
-        this.state.phone = this.refs.phoneNum.value;
-        this.state.fax = this.refs.fax.value;
-        this.state.clientType = this.refs.clienttype.value;
-
-        this.getClientsList(this.state.currentPage, this.state.sizePerPage);
+        this.setState({
+            name: this.refs.clientName.value,
+            email: this.refs.email.value,
+            phone: this.refs.phoneNum.value,
+            fax: this.refs.fax.value,
+            clientType: this.refs.clienttype.value
+        }, () => {
+            this.getClientsList(this.state.currentPage, this.state.sizePerPage);
+        })
     }
 
     ClearClick() {
-        this.state.name = "";
-        this.state.email = "";
-        this.state.phone = "";
-        this.state.fax = "";
-        this.state.clientType = "";
-        this.getClientsList(this.state.currentPage, this.state.sizePerPage);
+        this.refs.clientName.value = "";
+        this.refs.email.value = "";
+        this.refs.phoneNum.value = "";
+        this.refs.fax.value = "";
+        this.refs.clienttype.value = "";
+        this.setState({
+            name: this.refs.clientName.value,
+            email: this.refs.email.value,
+            phone: this.refs.phoneNum.value,
+            fax: this.refs.fax.value,
+            clientType: this.refs.clienttype.value
+        }, () => {
+            this.getClientsList(this.state.currentPage, this.state.sizePerPage);
+        })
     }
 
     ClientChanged(val) {

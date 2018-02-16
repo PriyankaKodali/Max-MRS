@@ -105,12 +105,19 @@ class DoctorsList extends Component {
                             </div>
 
                             <div className="col-md-2 form-group">
-                                <input className="col-md-3 form-control" type="text" name="joblevel" placeholder="Job Level" autoComplete="off" ref="jobLevel" onChange={this.SearchClick.bind(this)} />
-
+                                {/* <input className="col-md-2 form-control" type="text" name="joblevel" placeholder="Job Level" autoComplete="off" ref="jobLevel" onChange={this.SearchClick.bind(this)} /> */}
+                             <Select className="col-md-2 form-control" value={this.state.jobLevel} 
+                             options={ [{value:'L1', label:'L1'}, {value:'L1-L3', label:'L1-L3'}, {value:'L1-L2-L3', label:'L1-L2-L3'}]} onChange={this.jobLevelChanged.bind(this)} />
                             </div>
 
-                            <div className="col-md-2 form-group">
-                                <input className="col-md-3 form-control" type="text" name="clientType" placeholder="Voice Grade" autoComplete="off" ref="voiceGrade" onChange={this.SearchClick.bind(this)} />
+                            <div className="col-md-1 form-group">
+                                {/* <input className="col-md-1 form-control" type="text" name="clientType" placeholder="Voice Grade" autoComplete="off" ref="voiceGrade" onChange={this.SearchClick.bind(this)} /> */}
+                                <Select className="col-md-2 form-control" value={this.state.voiceGrade} 
+                             options={ [{value:'A', label:'A'}, {value:'B', label:'B'}, {value:'C', label:'C'}, {value:'D', label:'D'}]} onChange={this.voiceGradeChanged.bind(this)} />
+                            </div>
+
+                            <div className="col-xs-1 form-group">
+                            <input type="button" className="btn btn-default" value="Clear" onClick={this.clear.bind(this)} />
                             </div>
                         </form>
                         :
@@ -154,19 +161,49 @@ class DoctorsList extends Component {
     }
 
     jobLevelChanged(val) {
-        this.setState({ jobLevel: val || '' });
-        this.SearchClick();
+        this.setState({ jobLevel: val }, ()=>{
+                this.SearchClick();
+        });
+    }
+
+    voiceGradeChanged(val){
+        this.setState({voiceGrade: val}, ()=>{
+              this.SearchClick();
+        })
+    }
+
+    
+
+    clear()
+    {
+        this.refs.name.value= "";
+        this.refs.clientName.value="";
+        this.refs.email.value="";
+        this.refs.phoneNum.value="";
+        this.state.jobLevel=null;
+        this.state.voiceGrade=null;
+        
+          this.setState({
+            name: this.refs.name.value,
+            client: this.refs.clientName.value,
+            email: this.refs.email.value,
+            phoneNum: this.refs.phoneNum.value,
+            jobLevel: this.state.jobLevel,
+            voiceGrade: this.state.voiceGrade
+        }, () => {
+            this.getDoctorsList(this.state.currentPage, this.state.sizePerPage);
+        })
+
     }
 
     SearchClick() {
-
         this.setState({
             name: this.refs.name.value,
             client: this.refs.clientName.value,
             email: this.refs.email.value,
             phoneNum: this.refs.phoneNum.value,
-            jobLevel: this.refs.jobLevel.value,
-            voiceGrade: this.refs.voiceGrade.value
+            jobLevel: this.state.jobLevel.value,
+            voiceGrade: this.state.voiceGrade.value
         }, () => {
             this.getDoctorsList(this.state.currentPage, this.state.sizePerPage);
         })

@@ -37,10 +37,10 @@ class ClientEmployeesList extends Component {
 
     componentWillMount() {
 
-        $.ajax({
-            url: ApiUrl + "/api/Client/Clients",
+       $.ajax({
+            url: ApiUrl + "/api/MasterData/GetAllClients",
             type: "get",
-            success: (data) => { this.setState({ Clients: data["ClientNames"] }) }
+            success: (data) => { this.setState({ Clients: data["clients"] }) }
         })
 
         this.getClientEmpList(this.state.currentPage, this.state.sizePerPage)
@@ -97,23 +97,23 @@ class ClientEmployeesList extends Component {
                                 </div>
 
                                 <div className="col-md-2 form-group">
-                                    <input className="col-md-3 form-control" type="text" name="FirstName" placeholder="First Name" autoComplete="off" ref="firstname" />
+                                    <input className="col-md-3 form-control" type="text" name="FirstName" placeholder="First Name" autoComplete="off" ref="firstname" onChange={this.searchClick.bind(this)} />
                                 </div>
 
                                 <div className="col-md-2 form-group">
-                                    <input className="col-md-3 form-control" type="text" name="LastName" placeholder="Last Name" autoComplete="off" ref="lastname" />
+                                    <input className="col-md-3 form-control" type="text" name="LastName" placeholder="Last Name" autoComplete="off" ref="lastname"  onChange={this.searchClick.bind(this)}  />
                                 </div>
 
                                 <div className="col-md-2 form-group">
-                                    <input className="col-md-3 form-control" type="text" name="Email" placeholder="Email" autoComplete="off" ref="email" />
+                                    <input className="col-md-3 form-control" type="text" name="Email" placeholder="Email" autoComplete="off" ref="email"  onChange={this.searchClick.bind(this)}  />
                                 </div>
 
                                 <div className="col-md-2 form-group">
-                                    <input className="col-md-3 form-control" type="text" name="Department" placeholder="Department" autoComplete="off" ref="department" />
+                                    <input className="col-md-3 form-control" type="text" name="Department" placeholder="Department" autoComplete="off" ref="department"  onChange={this.searchClick.bind(this)}  />
                                 </div>
 
                                 <div className="col-md-2 button-block text-center">
-                                    <input type="button" className="btn btn-success" value="Search" onClick={this.searchClick.bind(this)} />
+                                    {/* <input type="button" className="btn btn-success" value="Search" onClick={this.searchClick.bind(this)} /> */}
                                     <input type="button" className="mleft10 btn btn-default" value="Clear" onClick={this.clearClick.bind(this)} />
                                 </div>
                             </form>
@@ -172,7 +172,9 @@ class ClientEmployeesList extends Component {
 
 
     ClientChanged(val) {
-        this.setState({ Client: val || '' })
+        this.setState({ Client: val || '' }, ()=>{
+             this.searchClick();
+        })
     }
 
     onPageChange(page, sizePerPage) {
@@ -184,21 +186,18 @@ class ClientEmployeesList extends Component {
     }
 
     searchClick() {
-        //  this.setState({
-        //     FirstName: this.refs.firstname.value,
-        //     LastName: this.refs.lastname.value,
-        //     Email: this.refs.email.value,
-        //     Client: this.state.Client,
-        //     Department: this.refs.department.value
-        // });
-        //    this.getClientEmpList(this.state.currentPage, this.state.sizePerPage)
+         this.setState({
+            FirstName: this.refs.firstname.value,
+            LastName: this.refs.lastname.value,
+            Email: this.refs.email.value,
+            Client: this.state.Client,
+            Department: this.refs.department.value
+        }, ()=>{
+            this.getClientEmpList(this.state.currentPage, this.state.sizePerPage)
 
-        this.state.FirstName = this.refs.firstname.value,
-            this.state.LastName = this.refs.lastname.value,
-            this.state.Email = this.refs.email.value,
-            this.state.Client = this.state.Client,
-            this.state.Department = this.refs.department.value
-        this.getClientEmpList(this.state.currentPage, this.state.sizePerPage)
+        });
+       
+    
     }
 
     clearClick() {

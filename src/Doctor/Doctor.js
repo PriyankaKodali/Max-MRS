@@ -16,12 +16,11 @@ class Doctor extends Component {
             Country: null, Countries: [], State: null, States: [],
             City: null, Cities: [], Client: null, Clients: [], VoiceGrade: null, JobLevel: null,
             DictationMode: null, Specialities: [], Speciality: '', removeSelected: true, DoctorGroups: [],
-            DoctorGroup: null, secondaryNum: null, Doctor: [],
+            DoctorGroup: null, secondaryNum: null, Doctor: [], IsActive: true,
         }
     }
 
     componentWillMount() {
-
         this.setState({ DoctorId: this.props.match.params["id"] }, () => {
             if (this.props.match.params["id"] != null) {
                 $.ajax({
@@ -186,6 +185,21 @@ class Doctor extends Component {
                                     </div>
                                 </div>
                             </div>
+                        </div>
+
+                        {this.props.match.params["id"] != null ?
+
+                            <div className="col-xs-12">
+                            <div className="col-xs-2">
+                                <label> <input className="form-group activeCheckboxes" type="checkbox" name="isActive" ref="isActive" value={this.state.IsActive} onChange={this.isActiveChanged.bind(this)} defaultChecked={this.state.Doctor["IsActive"]} /> <span />  IsActive</label>
+                            </div></div>
+                            :
+                           <div />
+
+                        }
+
+                        <div className="col-xs-12">
+
                         </div>
 
                         <div className="col-xs-12">
@@ -429,6 +443,9 @@ class Doctor extends Component {
         this.setState({ City: val || '' })
         showErrorsForInput(this.refs.city.wrapper, null);
     }
+    isActiveChanged() {
+      this.setState({ IsActive: !this.state.Doctor["IsActive"] })
+    }
 
     handleSubmit(e) {
         e.preventDefault();
@@ -468,7 +485,9 @@ class Doctor extends Component {
         data.append("specialities", JSON.stringify(this.state.Speciality));
 
 
+
         if (this.props.match.params["id"] != null) {
+            data.append("IsActive", this.state.IsActive);
             var url = ApiUrl + "api/Doctors/UpdateDoctor?doctor_Id=" + this.props.match.params["id"]
         }
         else {
@@ -479,7 +498,7 @@ class Doctor extends Component {
             MyAjaxForAttachments(
                 url,
                 (data) => {
-                    toast("Client Employee saved successfully!", {
+                    toast("Doctor saved successfully!", {
                         type: toast.TYPE.SUCCESS
                     });
                     $("button[name='submit']").show();
