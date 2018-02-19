@@ -17,8 +17,8 @@ class ClientRegistration extends Component {
         super(props);
         var ClientLocations = [];
         this.state = {
-            ClientVerticals: [], ClientVertical: '', Countries: [], Country: null, States: [], State: null,
-            Cities: [], City: null, TimeZone: null, TimeZones: null, AddClientAddressClick: true, LocationCount: 0,
+            ClientVerticals: [], ClientVertical: '', Countries: [], Country: '', States: [], State: '',
+            Cities: [], City: '', TimeZone: null, TimeZones: null, AddClientAddressClick: true, LocationCount: 0,
             ClientLocations: ClientLocations, ClientLocationRefs: [], PaymentType: null, Currency: null,
             ClientType: '', removeSelected: true, IsVendor: false, ClientId: null, Client: [], ClientLoc: [],
             IsActive: true,
@@ -47,7 +47,7 @@ class ClientRegistration extends Component {
                             if (data["clientModel"]["ClientType"] == "Vendor") {
                                 this.state.IsVendor = true
                             }
-                           // console.log(this.state.Client["IsActive"]);
+                            // console.log(this.state.Client["IsActive"]);
                         })
                     }
                 })
@@ -76,11 +76,11 @@ class ClientRegistration extends Component {
     render() {
         return (
             <div className="headercon" key={this.state.Client}>
-                <div className="container">
+                <div className="clientContainer" >
                     <div className="col-xs-12 headerstyle" >
                         <h3 className="col-xs-11 Empheading" style={{ paddingLeft: '10px' }}>General Details</h3>
                         <div className="col-md-1 mybutton clientAddressbtn">
-                            <button type="button" style={{ marginTop: '3%' }} className="btn btn-default pull-left headerbtn" onClick={() => this.props.history.push("/ClientsList")} >
+                            <button type="button" style={{ marginTop: '2%' }} className="btn btn-default pull-left headerbtn" onClick={() => this.props.history.push("/ClientsList")} >
                                 <span className="glyphicon glyphicon-th-list"></span>
                             </button>
                         </div>
@@ -250,7 +250,7 @@ class ClientRegistration extends Component {
                             )
                         }
                         {
-                            this.state.IsVendor ?
+                            this.state.IsVendor || this.state.ClientType == "Vendor" ?
 
                                 <div />
                                 :
@@ -388,23 +388,18 @@ class ClientRegistration extends Component {
         var clientLocs = clientloc;
 
         clientLocationRefs.map((ele, i) => {
-            // if (clientLocationRefs[i].refs.locationId.value == null) {
-            //     this.state.locationId = 0
-            // }
-            // else {
-            //     this.state.locationId = clientLocationRefs[i].refs.locationId.value
-            // }
+            
             var location = {
                 locationId: clientLocationRefs[i].refs.locationId.value,
                 addressLine1: clientLocationRefs[i].refs.addressLine1.value.trim(),
                 addressLine2: clientLocationRefs[i].refs.addressLine2.value.trim(),
                 landMark: clientLocationRefs[i].refs.landmark.value.trim(),
-                country: clientLocationRefs[i].state.Country.value,
+                country:  clientLocationRefs[i].state.Country.value,
                 state: clientLocationRefs[i].state.State.value,
                 city: clientLocationRefs[i].state.City.value,
                 zip: clientLocationRefs[i].refs.zip.value,
                 timeZone: clientLocationRefs[i].state.TimeZone.value,
-                isInvoice: clientLocationRefs[i].state.IsInvoice
+                isInvoice: clientLocationRefs[i].refs.isInvoice.value
             }
             clientloc.push(location);
         })
@@ -431,13 +426,15 @@ class ClientRegistration extends Component {
         data.append("ClientVerticals", JSON.stringify(this.state.ClientVertical));
         data.append("Cv", this.state.ClientVertical);
         data.append("ClientType", this.state.ClientType.value);
-        data.append("PaymentType", this.state.PaymentType.value);
-        data.append("Currency", this.state.Currency.value);
-        data.append("PaymentAmount", this.refs.paymentamount.value);
         data.append("ClientLocations", JSON.stringify(clientloc));
 
-        if (this.props.match.params["id"] != null) {
+        if (this.state.ClientType.value != "Vendor") {
+            data.append("PaymentType", this.state.PaymentType.value);
+            data.append("Currency", this.state.Currency.value);
+            data.append("PaymentAmount", this.refs.paymentamount.value);
+        }
 
+        if (this.props.match.params["id"] != null) {
             data.append("IsActive", this.state.IsActive);
             var url = ApiUrl + "/api/Client/UpdateClient"
         }
@@ -489,7 +486,7 @@ class ClientRegistration extends Component {
 
         var clientLocationRefs = this.state.ClientLocationRefs;
 
-        if (this.state.ClientType == "Vendor") {
+        if (this.state.ClientType.value != "Vendor") {
 
             if (!this.state.PaymentType || !this.state.PaymentType.value) {
                 success = false;
@@ -518,7 +515,7 @@ class ClientRegistration extends Component {
                 success = false;
                 showErrorsForInput(clientLocationRefs[i].refs.addressLine1, ["Address Line 1 should not be empty"]);
             }
-            if (!clientLocationRefs[i].state.Country || !clientLocationRefs[i].state.Country.value) {
+            if ( !clientLocationRefs[i].state.Country || !clientLocationRefs[i].state.Country.value) {
                 success = false;
                 showErrorsForInput(clientLocationRefs[i].refs.country.wrapper, ["Select a Country"]);
             }

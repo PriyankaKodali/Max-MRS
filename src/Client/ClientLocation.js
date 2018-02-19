@@ -16,7 +16,7 @@ class ClientLocation extends Component {
         var ClientLocations = [];
         ClientLocations.push();
         this.state = {
-            Countries: [], Country: null, States: [], State: null, Cities: [], City: null, TimeZone: null, TimeZones: [], ZIP: '',
+            Countries: [], Country: '', States: [], State: '', Cities: [], City: '', TimeZone: '', TimeZones: [], ZIP: '',
             ClientLocation: {}, AddresLine1: '', AddressLine2: '', Landmark: '', IsInvoice: false,
             LocationId: null, ClientId: null
         }

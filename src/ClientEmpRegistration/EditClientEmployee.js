@@ -46,10 +46,10 @@ class EditClientEmployee extends Component {
 
         if (this.state.ClientEmp !== null) {
             return (
-                <div className="headercon" key={this.state.ClientEmp}>
+                <div className="headerCon" key={this.state.ClientEmp}>
                     <div className="container">
                         <div className="col-xs-12 headerstyle">
-                            <h3 className="col-xs-11 formheader" style={{ paddingLeft: '10px' }}> Employee Details</h3>
+                            <h3 className="col-xs-11 formheader" style={{ paddingLeft: '10px' }}> Client Employee Details</h3>
                             <div className="col-md-1 mybutton">
                                 <button type="button" className="btn btn-default pull-left headerbtn" onClick={() => this.props.history.push("/ClientEmployeesList")} >
                                     <span className="glyphicon glyphicon-th-list"></span>
@@ -177,6 +177,7 @@ class EditClientEmployee extends Component {
                             </div>
 
                             <div className="col-xs-12">
+                                  <div className="loader loaderActivity" style={{ marginLeft: '43%', marginBottom: '8px' }} ></div>
                                 <button type="submit" name="submit" className="btn btn-md btn-success" style={{marginLeft:'45%'}} > Save </button>
                             </div>
                         </form>
@@ -200,12 +201,19 @@ class EditClientEmployee extends Component {
 
         e.preventDefault();
 
+             $(".loaderActivity").show();
+           $("button[name='submit']").hide();
+
+
         $(e.currentTarget.getElementsByClassName('form-control')).map((i, ele) => {
             ele.classList.remove("un-touched");
             return null;
         })
 
         if (!this.validate(e)) {
+              $(".loaderActivity").hide();
+              $("button[name='submit']").show();
+
             return;
         }
 

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import $ from 'jquery';
 import { ApiUrl } from '../Config';
-import './ClientEmployeesList.css';
+import './ClientEmployees.css';
 import Select from 'react-select';
 import { toast } from 'react-toastify';
 import { Link } from 'react-router-dom';
@@ -72,7 +72,7 @@ class ClientEmployeesList extends Component {
 
     render() {
         return (
-            <div className="container" style={{ marginTop: '1%' }}>
+            <div className="clientEmpListContainer">
                 <div className="headercon">
                     <div className="row">
                         <div className="col-md-12">
@@ -166,7 +166,9 @@ class ClientEmployeesList extends Component {
 
     editDataFormatter(cell, row) {
         return (
-            <i className='glyphicon glyphicon-pencil' style={{ fontSize: '18px' }} onClick={() => this.props.history.push("/EditClientEmployee/" + row["Id"])}></i>
+            <a>
+            <i className='glyphicon glyphicon-edit' style={{ cursor:'pointer', fontSize: '18px' }} onClick={() => this.props.history.push("/EditClientEmployee/" + row["Id"])}></i>
+           </a>
         )
     }
 
@@ -206,7 +208,7 @@ class ClientEmployeesList extends Component {
         this.state.Client = "";
         this.refs.email.value = "";
         this.refs.department.value = "";
-            this.getClientEmpList(this.state.currentPage, this.state.sizePerPage);
+        this.getClientEmpList(this.state.currentPage, this.state.sizePerPage);
     }
 
 }

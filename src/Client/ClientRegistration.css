@@ -39,3 +39,21 @@
 .checkboxlabel{
   padding-bottom: 3px;
 }
+
+.clientListContainer{
+  position: absolute;
+  margin-left:8%;
+  margin-right: 8%;
+  padding-top: 30px;
+}
+
+.clientContainer{
+  position: absolute;
+  margin-left:8%;
+  margin-right: 8%;
+}
+
+.headercon{
+margin-top:32px;  
+}
+ 

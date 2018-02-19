@@ -32,6 +32,10 @@ class EmployeeDocuments extends Component {
     componentDidMount() {
         setUnTouched(document);
     }
+    
+    componentDidUpdate(){
+        setUnTouched(document);
+    }
 
     getEmployeeDocuments(page, count) {
         var url = ApiUrl + "/api/Employee/GetEmpDocuments?EmpId=" + this.state.EmployeeId +
@@ -59,7 +63,7 @@ class EmployeeDocuments extends Component {
 
     render() {
         return (
-            <div className="headercon" key={this.state.EmpName}>
+            <div className="headerCon" key={this.state.EmpName}>
                 <button className="col-md-3 btn btn-default btn-circle" style={{ marginLeft: '10%' }} onClick={() => this.props.history.push("/EmployeeRegistration/" + this.props.match.params["id"])} title="General Details" > 1</button>
                 <hr className="col-md-4" />
                 <button className="col-md-3 btn btn-default btn-circle" onClick={() => this.props.history.push("/EmployeeDocuments/" + this.props.match.params["id"])} title="Documents" > 2</button>
@@ -75,9 +79,6 @@ class EmployeeDocuments extends Component {
                                 <span className="glyphicon glyphicon-plus"></span>
                             </button>
                         </div>
-
-                        
-
 
                         <div className="docSearch">
                             <div className="col-xs-12">
@@ -146,7 +147,7 @@ class EmployeeDocuments extends Component {
                         <div className="modal-dialog modal-lg">
                             <div className="modal-content">
                                 <div className="modal-header formheader" style={{ paddingLeft: '20px' }}>
-                                    <button type="button" className="close btnClose" data-dismiss="modal" data-target="#myDocView"> &times; </button>
+                                    <button type="button" className="close btnClose" data-dismiss="modal" id="closeModal"> &times; </button>
                                     <h4 className="modal-title">Add New Document</h4>
                                 </div>
                                 <div>
@@ -181,7 +182,8 @@ class EmployeeDocuments extends Component {
                                     </div>
 
                                     <div className="col-xs-12">
-                                        <button className="btn btn-md btn-success btnSave" type="submit" name="submit" > Save </button>
+                                         <div className="loader loaderActivity" style={{ marginLeft: '45%', marginBottom: '8px' }}></div>
+                                        <button className="btn btn-success btnSave" type="submit" name="submit" > Save </button>
                                     </div>
                                 </div>
 
@@ -200,20 +202,19 @@ class EmployeeDocuments extends Component {
     DocDateFormatter(cell, row) {
         return <p > {moment(row["DocumentDate"]).format("DD-MM-YYYY")} </p>
     }
+
     UploadDateFormatter(cell, row) {
         return <p> {moment(row["UploadDate"]).format("DD-MM-YYYY")}</p>
     }
-
-    // AllDocuments() {
-    //     this.getEmployeeDocuments(this.state.currentPage, this.state.sizePerPage)
-    // }
-
+   
     RemoveInputs() {
         this.refs.category.value = "";
         this.refs.notes.value = "";
         this.refs.keywords.value = "";
-        this.refs.documentDate.value = "";
-        //  this.refs.files.value="";
+        this.refs.documentdate.value = "";
+
+
+        $("#closeModal").click();
         this.getEmployeeDocuments(this.state.currentPage, this.state.sizePerPage);
 
     }
@@ -228,8 +229,15 @@ class EmployeeDocuments extends Component {
         })
 
         if (!this.validate(e)) {
+            
+        $(".loaderActivity").hide();
+        $("button[name='submit']").hide();
             return;
         }
+
+        
+        $(".loaderActivity").show();
+        $("button[name='submit']").hide();
 
         var data = new FormData();
 
@@ -250,9 +258,7 @@ class EmployeeDocuments extends Component {
                         type: toast.TYPE.SUCCESS
                     });
                     $("button[name='submit']").show();
-                    //this.props.history.push("/EmployeeDocuments/" + this.props.match.params["id"]);
                     this.RemoveInputs();
-                    //  this.AllDocuments()
                     return true;
                 },
                 (error) => {

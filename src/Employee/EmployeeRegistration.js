@@ -86,29 +86,29 @@ class EmployeeRegistration extends Component {
 
     render() {
         return (
-            <div className="headercon" key={this.state.Employee}>
-               
-                    {
-                        this.props.match.params["id"] != null ?
-                            <div>
-                                <button className="col-md-3 btn btn-default btn-circle" style={{ marginLeft: '10%' }} onClick={() => this.props.history.push("/EmployeeRegistration/" + this.props.match.params["id"])} title="General Details" > 1</button>
-                                <hr className="col-md-4" />
-                                <button className="col-md-3 btn btn-default btn-circle" onClick={() => this.props.history.push("/EmployeeDocuments/" + this.props.match.params["id"])} title="Documents" > 2</button>
-                                <hr className="col-md-4" />
-                                <button className="col-md-3 btn btn-default btn-circle" onClick={() => this.props.history.push("/EmployeePayScale/" + this.props.match.params["id"])} title="PayScales" > 3 </button>
-                            </div>
-                            :
-                            <div>
-                                <button className="col-md-3 btn btn-default btn-circle" style={{ marginLeft: '10%' }} onClick={() => this.props.history.push("/EmployeeRegistration/")} title="General Details" > 1</button>
-                                <hr className="col-md-4" />
-                                <button className="col-md-3 btn btn-default btn-circle" title="Documents" > 2</button>
-                                <hr className="col-md-4" />
-                                <button className="col-md-3 btn btn-default btn-circle" title="PayScales" > 3</button>
+            <div className="headerCon" key={this.state.Employee}>
 
-                            </div>
-                    }
+                {
+                    this.props.match.params["id"] != null ?
+                        <div>
+                            <button className="col-md-3 btn btn-default btn-circle" style={{ marginLeft: '10%' }} onClick={() => this.props.history.push("/EmployeeRegistration/" + this.props.match.params["id"])} title="General Details" > 1</button>
+                            <hr className="col-md-4" />
+                            <button className="col-md-3 btn btn-default btn-circle" onClick={() => this.props.history.push("/EmployeeDocuments/" + this.props.match.params["id"])} title="Documents" > 2</button>
+                            <hr className="col-md-4" />
+                            <button className="col-md-3 btn btn-default btn-circle" onClick={() => this.props.history.push("/EmployeePayScale/" + this.props.match.params["id"])} title="PayScales" > 3 </button>
+                        </div>
+                        :
+                        <div >
+                            <button className="col-md-3 btn btn-default btn-circle" style={{ marginLeft: '10%' }} onClick={() => this.props.history.push("/EmployeeRegistration/")} title="General Details" > 1</button>
+                            <hr className="col-md-4" />
+                            <button className="col-md-3 btn btn-default btn-circle" title="Documents" > 2</button>
+                            <hr className="col-md-4" />
+                            <button className="col-md-3 btn btn-default btn-circle" title="PayScales" > 3</button>
 
-                     <div className="container">
+                        </div>
+                }
+
+                <div className="empContainer">
 
                     <form onSubmit={this.handleSubmit.bind(this)} onChange={this.validate.bind(this)} >
 
@@ -443,7 +443,8 @@ class EmployeeRegistration extends Component {
                             </div>
 
                             <div className="col-xs-12" >
-                                <button type="submit" name="submit" className="btn btn-md btn-default btnSave" > Submit </button>
+                                <div className="loader loaderActivity" style={{ marginLeft: '45%', marginBottom: '8px' }}></div>
+                                <button type="submit" name="submit" className="btn btn-success btnSave" > Submit </button>
                             </div>
 
                         </div>
@@ -551,15 +552,22 @@ class EmployeeRegistration extends Component {
     handleSubmit(e) {
         e.preventDefault();
 
-        $(e.currentTarget.getElementsByClassName('form-control')).map((i, ele) => {
+        $(".loaderActivity").show();
+        $("button[name='submit']").hide();
+
+         $(e.currentTarget.getElementsByClassName('form-control')).map((i, ele) => {
             ele.classList.remove("un-touched");
             return null;
         })
 
         if (!this.validate(e)) {
+            
+        $(".loaderActivity").hide();
+        $("button[name='submit']").show();
             return;
         }
 
+        
         var data = new FormData();
 
         data.append("FirstName", this.refs.firstname.value);
@@ -582,8 +590,14 @@ class EmployeeRegistration extends Component {
         data.append("AddressLIne2", this.refs.addressLine2.value);
         data.append("Zip", this.refs.zip.value);
         data.append("DOB", this.refs.dob.value);
-        data.append("DOJ", this.refs.doj.value);
-        data.append("ProvisionalPeriod", this.refs.provisionalPeriod.value);
+
+        if (this.refs.doj.value != null) {
+            data.append("DOJ", this.refs.doj.value);
+        }
+        if (this.refs.provisionalPeriod.value) {
+            data.append("ProvisionalPeriod", this.refs.provisionalPeriod.value);
+        }
+
         data.append("BloodGroup", this.state.BloodGroup.value);
 
         if (!this.state.Manager || !this.state.Manager.value) {
@@ -602,6 +616,7 @@ class EmployeeRegistration extends Component {
         }
 
         try {
+            
             MyAjaxForAttachments(
                 url,
                 (data) => {

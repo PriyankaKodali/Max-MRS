@@ -74,7 +74,7 @@ class Doctor extends Component {
     render() {
         return (
             <div className="headercon" key={this.state.Doctor}>
-                <div className="container">
+                <div className="doctorContainer">
                     <div className="col-xs-12 headerstyle" >
                         <h3 className="col-xs-11 Empheading" style={{ paddingLeft: '10px' }}>Personal Details</h3>
                         <div className="col-md-1 mybutton clientAddressbtn">
@@ -190,11 +190,11 @@ class Doctor extends Component {
                         {this.props.match.params["id"] != null ?
 
                             <div className="col-xs-12">
-                            <div className="col-xs-2">
-                                <label> <input className="form-group activeCheckboxes" type="checkbox" name="isActive" ref="isActive" value={this.state.IsActive} onChange={this.isActiveChanged.bind(this)} defaultChecked={this.state.Doctor["IsActive"]} /> <span />  IsActive</label>
-                            </div></div>
+                                <div className="col-xs-2">
+                                    <label> <input className="form-group activeCheckboxes" type="checkbox" name="isActive" ref="isActive" value={this.state.IsActive} onChange={this.isActiveChanged.bind(this)} defaultChecked={this.state.Doctor["IsActive"]} /> <span />  IsActive</label>
+                                </div></div>
                             :
-                           <div />
+                            <div />
 
                         }
 
@@ -365,7 +365,9 @@ class Doctor extends Component {
                         </div>
 
                         <div className="col-xs-12">
+                            <div className="loader loaderActivity" style={{ marginLeft: '45%', marginBottom: '8px' }}></div>
                             <button type="submit" style={{ marginLeft: '45%' }} name="submit" className="btn btn-md btn-success" > Submit </button>
+
                         </div>
                     </form>
                 </div>
@@ -444,11 +446,14 @@ class Doctor extends Component {
         showErrorsForInput(this.refs.city.wrapper, null);
     }
     isActiveChanged() {
-      this.setState({ IsActive: !this.state.Doctor["IsActive"] })
+        this.setState({ IsActive: !this.state.Doctor["IsActive"] })
     }
 
     handleSubmit(e) {
         e.preventDefault();
+
+        $(".loaderActivity").show();
+        $("button[name='submit']").hide();
 
         $(e.currentTarget.getElementsByClassName('form-control')).map((i, ele) => {
             ele.classList.remove("un-touched");
@@ -456,9 +461,11 @@ class Doctor extends Component {
         })
 
         if (!this.validate(e)) {
+            $(".loaderActivity").show();
+            $("button[name='submit']").hide();
             return;
         }
-
+        
         var data = new FormData();
 
         data.append("salutation", this.refs.salutation.value);
@@ -481,9 +488,11 @@ class Doctor extends Component {
         data.append("jobLevel", this.state.JobLevel.value);
         data.append("macroPercent", this.refs.macroPercent.value);
         data.append("voiceGrade", this.state.VoiceGrade.value);
-        data.append("doctorGroup", this.state.DoctorGroup.value);
-        data.append("specialities", JSON.stringify(this.state.Speciality));
+        if (this.state.DoctorGroup.value) {
+            data.append("doctorGroup", this.state.DoctorGroup.value);
+        }
 
+        data.append("specialities", JSON.stringify(this.state.Speciality));
 
 
         if (this.props.match.params["id"] != null) {

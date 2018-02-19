@@ -38,9 +38,9 @@ class DoctorGroups extends Component {
     }
 
     render() {
-        return (
+      return (
             <div className="headercon">
-                <div className="Container" style={{marginTop:'-4%'}}>
+                <div className="container" >
                     <form onSubmit={this.handleSubmit.bind(this)} onChange={this.validate.bind(this)} >
                         <div className="headercon">
                             <div className="row">
@@ -57,7 +57,7 @@ class DoctorGroups extends Component {
                                     <div className="modal-dialog modal-lg">
                                         <div className="modal-content">
                                             <div className="modal-header formheader" style={{ paddingLeft: '20px' }}>
-                                                <button type="button" className="close" style={{ marginRight: '4%', width: '30px', background: 'white', height: '30px' }} data-dismiss="modal"> &times; </button>
+                                                <button type="button" className="close btnClose" id="closeModal" data-dismiss="modal"> &times; </button>
                                                 <h4 className="modal-title">Doctor Group</h4>
                                             </div>
                                             <div>
@@ -95,6 +95,7 @@ class DoctorGroups extends Component {
 
     Success() {
         this.refs.groupName.value="";
+        $("#closeModal").click();
         this.getDoctorsGroupList();
     }
 

@@ -15,22 +15,10 @@ class DoctorsList extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            currentPage: 1,
-            sizePerPage: 10,
-            dataTotalSize: 0,
-            searchClick: false,
-            DoctorsList: [],
-            authId: '',
-            client: '',
-            name: '',
-            email: '',
-            phoneNum: '',
-            jobLevel: '',
-            voiceGrade: '',
-            sortCol: 'Name',
-            sortDir: 'asc',
-            IsDataAvailable: false
-
+            currentPage: 1, sizePerPage: 10, dataTotalSize: 0,searchClick: false,
+            DoctorsList: [], authId: '',  Client: '', Name: '',  Email: '',
+            PhoneNumber: '', JobLevel: '', VoiceGrade: '', sortCol: 'Name',
+            sortDir: 'asc',  IsDataAvailable: false
         }
     }
 
@@ -41,12 +29,12 @@ class DoctorsList extends Component {
     getDoctorsList(page, count) {
         this.setState({ IsDataAvailable: false });
         var url = ApiUrl + "/api/Doctors/GetDoctorsList?authId=" + this.state.authId +
-            "&name=" + this.state.name +
-            "&client=" + this.state.client +
-            "&email=" + this.state.email +
-            "&phoneNum=" + this.state.phoneNum +
-            "&jobLevel=" + this.state.jobLevel +
-            "&voiceGrade=" + this.state.voiceGrade +
+            "&name=" + this.state.Name +
+            "&client=" + this.state.Client +
+            "&email=" + this.state.Email +
+            "&phoneNum=" + this.state.PhoneNumber +
+            "&jobLevel=" + this.state.JobLevel +
+            "&voiceGrade=" + this.state.VoiceGrade +
             "&page=" + page +
             "&count=" + count +
             "&sortCol=" + this.state.sortCol +
@@ -62,12 +50,11 @@ class DoctorsList extends Component {
                 })
             }
         })
-
     }
 
     render() {
         return (
-            <div className="Container">
+            <div className="doctorsListContainer" >
                 <div className="headercon">
                     <div className="row">
                         <div className="col-md-12">
@@ -84,7 +71,6 @@ class DoctorsList extends Component {
                         </div>
                     </div>
                 </div>
-
                 {
                     this.state.searchClick ?
                         <form className="formSearch" id="searchform">
@@ -105,25 +91,23 @@ class DoctorsList extends Component {
                             </div>
 
                             <div className="col-md-2 form-group">
-                                {/* <input className="col-md-2 form-control" type="text" name="joblevel" placeholder="Job Level" autoComplete="off" ref="jobLevel" onChange={this.SearchClick.bind(this)} /> */}
-                             <Select className="col-md-2 form-control" value={this.state.jobLevel} 
-                             options={ [{value:'L1', label:'L1'}, {value:'L1-L3', label:'L1-L3'}, {value:'L1-L2-L3', label:'L1-L2-L3'}]} onChange={this.jobLevelChanged.bind(this)} />
+                                 <input className="col-md-2 form-control" type="text" name="joblevel" placeholder="Job Level" autoComplete="off" ref="jobLevel" onChange={this.SearchClick.bind(this)} /> 
+                                {/* <Select className="col-md-2 form-control" value={this.state.JobLevel} placeholder="Job Level"
+                                    options={[{ value: 'L1', label: 'L1' }, { value: 'L1-L3', label: 'L1-L3' }, { value: 'L1-L2-L3', label: 'L1-L2-L3' }]} onChange={this.jobLevelChanged.bind(this)} /> */}
                             </div>
 
                             <div className="col-md-1 form-group">
-                                {/* <input className="col-md-1 form-control" type="text" name="clientType" placeholder="Voice Grade" autoComplete="off" ref="voiceGrade" onChange={this.SearchClick.bind(this)} /> */}
-                                <Select className="col-md-2 form-control" value={this.state.voiceGrade} 
-                             options={ [{value:'A', label:'A'}, {value:'B', label:'B'}, {value:'C', label:'C'}, {value:'D', label:'D'}]} onChange={this.voiceGradeChanged.bind(this)} />
+                                <input className="col-md-1 form-control" type="text" name="clientType" placeholder="Voice Grade" autoComplete="off" ref="voiceGrade" onChange={this.SearchClick.bind(this)} />
+                                {/* <Select className="col-md-2 form-control" value={this.state.voiceGrade}
+                                    options={[{ value: 'A', label: 'A' }, { value: 'B', label: 'B' }, { value: 'C', label: 'C' }, { value: 'D', label: 'D' }]} onChange={this.voiceGradeChanged.bind(this)} /> */}
                             </div>
-
                             <div className="col-xs-1 form-group">
-                            <input type="button" className="btn btn-default" value="Clear" onClick={this.clear.bind(this)} />
+                                <input type="button" className="btn btn-default" value="Clear" onClick={this.clear.bind(this)} />
                             </div>
                         </form>
                         :
                         <div />
                 }
-
 
                 {
                     !this.state.IsDataAvailable ? < div className="loader visible" ></div >
@@ -151,7 +135,7 @@ class DoctorsList extends Component {
                                 <TableHeaderColumn dataField="PrimaryPhone" dataAlign="left" dataSort={true} width="19" >Phone</TableHeaderColumn>
                                 <TableHeaderColumn dataField="JobLevel" dataAlign="left" dataSort={true} width="15" >Job Level</TableHeaderColumn>
                                 <TableHeaderColumn dataField="VoiceGrade" dataAlign="center" dataSort={true} width="12" >Voice Grade</TableHeaderColumn>
-                                <TableHeaderColumn columnClassName="edit" dataField="Edit" dataAlign="center" width="18" dataFormat={this.editDataFormatter.bind(this)} ></TableHeaderColumn>
+                                <TableHeaderColumn  columnClassName="edit" dataField="Edit" dataAlign="center" width="18" dataFormat={this.editDataFormatter.bind(this)} ></TableHeaderColumn>
                             </BootstrapTable>
                         </div>
                 }
@@ -161,35 +145,32 @@ class DoctorsList extends Component {
     }
 
     jobLevelChanged(val) {
-        this.setState({ jobLevel: val }, ()=>{
-                this.SearchClick();
+        this.setState({ JobLevel: val || ''}, () => {
+            this.SearchClick();
         });
     }
 
-    voiceGradeChanged(val){
-        this.setState({voiceGrade: val}, ()=>{
-              this.SearchClick();
-        })
-    }
+    // voiceGradeChanged(val) {
+    //     this.setState({ voiceGrade: val }, () => {
+    //         this.SearchClick();
+    //     })
+    // }
 
-    
+    clear() {
+        this.refs.name.value = "";
+        this.refs.clientName.value = "";
+        this.refs.email.value = "";
+        this.refs.phoneNum.value = "";
+        this.refs.jobLevel.value = "";
+        this.refs.voiceGrade.value = "";
 
-    clear()
-    {
-        this.refs.name.value= "";
-        this.refs.clientName.value="";
-        this.refs.email.value="";
-        this.refs.phoneNum.value="";
-        this.state.jobLevel=null;
-        this.state.voiceGrade=null;
-        
-          this.setState({
-            name: this.refs.name.value,
-            client: this.refs.clientName.value,
-            email: this.refs.email.value,
-            phoneNum: this.refs.phoneNum.value,
-            jobLevel: this.state.jobLevel,
-            voiceGrade: this.state.voiceGrade
+        this.setState({
+            Name: this.refs.name.value,
+            Client: this.refs.clientName.value,
+            Email: this.refs.email.value,
+            PhoneNumber: this.refs.phoneNum.value,
+            JobLevel: this.refs.jobLevel.value,
+            VoiceGrade: this.refs.voiceGrade.value
         }, () => {
             this.getDoctorsList(this.state.currentPage, this.state.sizePerPage);
         })
@@ -198,12 +179,12 @@ class DoctorsList extends Component {
 
     SearchClick() {
         this.setState({
-            name: this.refs.name.value,
-            client: this.refs.clientName.value,
-            email: this.refs.email.value,
-            phoneNum: this.refs.phoneNum.value,
-            jobLevel: this.state.jobLevel.value,
-            voiceGrade: this.state.voiceGrade.value
+            Name: this.refs.name.value,
+            Client: this.refs.clientName.value,
+            Email: this.refs.email.value,
+            PhoneNumber: this.refs.phoneNum.value,
+            JobLevel: this.refs.jobLevel.value,
+            VoiceGrade: this.refs.voiceGrade.value
         }, () => {
             this.getDoctorsList(this.state.currentPage, this.state.sizePerPage);
         })
@@ -211,7 +192,9 @@ class DoctorsList extends Component {
 
     editDataFormatter(cell, row) {
         return (
-            <i className='glyphicon glyphicon-pencil' style={{ fontSize: '18px' }} onClick={() => this.props.history.push("/Doctor/" + row["Id"])} ></i>
+            <a>
+            <i className='glyphicon glyphicon-edit' style={{ fontSize: '18px', cursor: 'pointer' }} onClick={() => this.props.history.push("/Doctor/" + row["Id"])} ></i>
+            </a>
         )
     }
 

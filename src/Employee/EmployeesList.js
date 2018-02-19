@@ -62,7 +62,7 @@ class EmployeesList extends Component {
 
     render() {
         return (
-            <div className="container" style={{ marginTop: '1%' }}>
+            <div className="empListContainer" style={{ marginTop: '1%' }}>
                 <div className="headercon">
                     <div className="row">
                         <div className="col-md-12">
@@ -182,7 +182,10 @@ class EmployeesList extends Component {
 
     editDataFormatter(cell, row) {
         return (
-            <i className='glyphicon glyphicon-pencil' style={{ fontSize: '18px' }} onClick={() => this.props.history.push("/EmployeeRegistration/" + row["Id"])}  ></i>
+            <a>
+                <i className='glyphicon glyphicon-edit' style={{ fontSize: '18px', cursor: 'pointer' }} onClick={() => this.props.history.push("/EmployeeRegistration/" + row["Id"])}  ></i>
+            </a>
+
         )
     }
 

@@ -6,7 +6,7 @@ import { showErrorsForInput, setUnTouched, ValidateForm } from '.././Validation'
 import { ApiUrl } from '../Config';
 import { MyAjaxForAttachments, MyAjax } from '../MyAjax'
 import Select from 'react-select';
-import './ClientEmployeesList.css';
+import './ClientEmployees.css';
 
 class ClientEmpRegistration extends React.Component {
 
@@ -23,7 +23,7 @@ class ClientEmpRegistration extends React.Component {
             email: null,
             department: null,
             Countries: [],
-            Country: ''
+            Country: null
         }
     }
 
@@ -41,10 +41,10 @@ class ClientEmpRegistration extends React.Component {
 
     render() {
         return (
-            <div className="headercon">
-                <div className="container">
+            <div className="headerCon">
+                <div className="clientEmpContainer">
                     <div className="col-xs-12 headerstyle" >
-                        <h3 className="col-xs-11 formheader" style={{ paddingLeft: '10px' }}> Employee Details</h3>
+                        <h3 className="col-xs-11 formheader" style={{ paddingLeft: '10px'}}> Client Employees </h3>
                         <div className="col-md-1 mybutton">
                             <button type="button" className="btn btn-default pull-left headerbtn" onClick={() => this.props.history.push("/ClientEmployeesList")} >
                                 <span className="glyphicon glyphicon-th-list"></span>
@@ -172,7 +172,8 @@ class ClientEmpRegistration extends React.Component {
                         </div>
 
                         <div className="col-xs-12">
-                            <button type="submit" style={{ marginLeft: '40%' }} name="submit" className="btn btn-md btn-success" > Save </button>
+                            <div className="loader loaderActivity" style={{ marginLeft: '43%', marginBottom: '8px' }} ></div>
+                            <button type="submit" style={{ marginLeft: '43%' }} name="submit" className="btn btn-md btn-success" > Save </button>
                         </div>
                     </form>
                 </div>
@@ -182,10 +183,14 @@ class ClientEmpRegistration extends React.Component {
 
     ClientChanged(val) {
         this.setState({ Client: val || '' })
+         showErrorsForInput(this.refs.clientname.wrapper, null);
     }
 
     handleSubmit(e) {
         e.preventDefault();
+
+           $(".loaderActivity").show();
+           $("button[name='submit']").hide();
 
         $(e.currentTarget.getElementsByClassName('form-control')).map((i, ele) => {
             ele.classList.remove("un-touched");
@@ -193,17 +198,10 @@ class ClientEmpRegistration extends React.Component {
         })
 
         if (!this.validate(e)) {
+              $(".loaderActivity").hide();
+              $("button[name='submit']").show();
             return;
         }
-
-        // var inputs = $(e.currentTarget.getElementsByClassName('form-control')).map((i, el) => {
-        //     if (el.closest(".form-group").classList.contains("hidden")) {
-        //         return null;
-        //     }
-        //     else {
-        //         return el;
-        //     }
-        // });
 
         var data = new FormData();
 

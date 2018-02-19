@@ -20,12 +20,12 @@ class EmployeePayScale extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            EmployeeId: null, EmployeePayScale:[]
+            EmployeeId: null, EmployeePayScale: []
         }
     }
 
     componentWillMount() {
-      
+
         this.setState({ EmployeeId: this.props.match.params["id"] }, () => {
             if (this.props.match.params["id"] != null) {
                 $.ajax({
@@ -43,9 +43,8 @@ class EmployeePayScale extends Component {
 
     render() {
         return (
-            <div className="headercon" key={this.state.EmployeePayScale}>
-
-                <button className="col-md-3 btn btn-default btn-circle" style={{ marginTop: '0.5%', marginLeft: '10%' }}  onClick={() => this.props.history.push("/EmployeeRegistration/" + this.props.match.params["id"])}  title="General Details" > 1</button>
+            <div className="headerCon" key={this.state.EmployeePayScale}>
+                <button className="col-md-3 btn btn-default btn-circle" style={{ marginTop: '0.5%', marginLeft: '10%' }} onClick={() => this.props.history.push("/EmployeeRegistration/" + this.props.match.params["id"])} title="General Details" > 1</button>
                 <hr className="col-md-4" />
                 <button className="col-md-3 btn btn-default btn-circle" onClick={() => this.props.history.push("/EmployeeDocuments/" + this.props.match.params["id"])} title="Documents" > 2</button>
                 <hr className="col-md-4" />
@@ -71,7 +70,7 @@ class EmployeePayScale extends Component {
 
                             <div className="col-md-4 form-group">
                                 <label> Branch Name </label>
-                                <input className="form-control" type="text" name="BranchName" placeholder="Branch Name" ref="branchName" autoComplete="off" defaultValue={this.state.EmployeePayScale["BranchName"]}  />
+                                <input className="form-control" type="text" name="BranchName" placeholder="Branch Name" ref="branchName" autoComplete="off" defaultValue={this.state.EmployeePayScale["BranchName"]} />
                             </div>
                         </div>
                         <div className="col-xs-12">
@@ -83,12 +82,13 @@ class EmployeePayScale extends Component {
 
                             <div className="col-xs-5 form-group">
                                 <label>Account Name</label>
-                                <input className="form-control" type="text" name="AccountName" placeholder="Account Name" autoComplete="off" ref="accName" autoComplete="off" defaultValue={this.state.EmployeePayScale["AccountName"]}  />
+                                <input className="form-control" type="text" name="AccountName" placeholder="Account Name" autoComplete="off" ref="accName" autoComplete="off" defaultValue={this.state.EmployeePayScale["AccountName"]} />
                             </div>
                         </div>
 
                         <div className="col-xs-12">
-                            <button className="btn btn-primary btnPayscaleSubmit" type="submit" name="submit" >Submit</button>
+                            <div className="loader loaderActivity" style={{ marginLeft: '45%', marginBottom: '8px' }}></div>
+                            <button className="btn btn-success btnPayscaleSubmit" type="submit" name="submit" >Save</button>
                         </div>
                     </form>
                 </div>
@@ -99,12 +99,18 @@ class EmployeePayScale extends Component {
     handleSubmit(e) {
         e.preventDefault();
 
+        $(".loaderActivity").show();
+        $("button[name='submit']").hide();
+
+
         $(e.currentTarget.getElementsByClassName('form-control')).map((i, ele) => {
             ele.classList.remove("un-touched");
             return null;
         })
 
         if (!this.validate(e)) {
+            $(".loaderActivity").hide();
+            $("button[name='submit']").show();
             return;
         }
         var data = new FormData();

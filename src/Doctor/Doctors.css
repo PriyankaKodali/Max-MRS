@@ -1,12 +1,11 @@
     
- .Container{
-    padding-right: 15px;
-    padding-left: 12px;
-    margin-right: 6%;
-    margin-left: 6%;
-    padding-top: 10px;
-    
-}
+ .doctorsListContainer{
+  position: absolute;
+  margin-left:8%;
+  margin-right: 8%;
+  padding-top: 30px;
+ }
+
    .formSearch
   {
     padding:10px 0;
@@ -26,4 +25,26 @@
 
  .activeCheckbox{
    margin-top: 2.5%;
+ }
+  .Empheading{
+   text-align: left;
+   background : lightseagreen; 
+   height: 40px;
+   padding-left: 20px; 
+   padding-top: 7px;
+   color:white; 
+}
+.headercon{
+    margin-top:32px;  
+}
+
+.doctorContainer{
+  position: absolute;
+  margin-left:8%;
+  margin-right: 8%;
+}
+
+  .edit > :hover{
+      text-align: center;
+     cursor: hand;
  }

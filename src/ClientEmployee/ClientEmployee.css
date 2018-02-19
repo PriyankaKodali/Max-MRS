@@ -44,3 +44,8 @@
  .btstrap{
     margin-top: 10px;
 }
+.clientEmpContainer{
+  position: absolute;
+  margin-left:8%;
+  margin-right: 8%;
+}
