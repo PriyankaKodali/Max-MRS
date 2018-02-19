@@ -82,11 +82,13 @@ class EmployeeRegistration extends Component {
     componentDidMount() {
         setUnTouched(document);
     }
-
+      componentDidUpdate(){
+        setUnTouched(document);
+    }
 
     render() {
         return (
-            <div className="headerCon" key={this.state.Employee}>
+            <div className="EmpheaderCon" key={this.state.Employee}>
 
                 {
                     this.props.match.params["id"] != null ?
@@ -215,7 +217,7 @@ class EmployeeRegistration extends Component {
                         <div className="col-xs-12">
 
                             <div className="col-md-4">
-                                <label>Date of birth </label>
+                                <label>Date of birth </label> (For eg: "3/30/2000")
                                 <div className="form-group">
                                     <div className="input-group">
                                         <span className="input-group-addon">
@@ -256,7 +258,7 @@ class EmployeeRegistration extends Component {
                             </div>
 
                             <div className="col-sm-3">
-                                <label>Pan</label>
+                                <label>Pan ( For Eg: ASDFG7654H)</label>
                                 <div className="form-group">
                                     <div className="input-group">
                                         <span className="input-group-addon">
@@ -628,7 +630,7 @@ class EmployeeRegistration extends Component {
                     return true;
                 },
                 (error) => {
-                    toast("An error occoured, please try again!", {
+                    toast("Please enter valid mail!", {
                         type: toast.TYPE.ERROR,
                         autoClose: false
                     });

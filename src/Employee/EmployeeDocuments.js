@@ -254,7 +254,7 @@ class EmployeeDocuments extends Component {
             MyAjaxForAttachments(
                 url,
                 (data) => {
-                    toast(" Employee Documents saved successfully!", {
+                    toast(" Employee documents uploaded successfully!", {
                         type: toast.TYPE.SUCCESS
                     });
                     $("button[name='submit']").show();

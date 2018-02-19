@@ -35,7 +35,7 @@
    color:white; 
 }
 .headercon{
-    margin-top:32px;  
+    margin-top:5%;  
 }
 
 .doctorContainer{
@@ -47,4 +47,9 @@
   .edit > :hover{
       text-align: center;
      cursor: hand;
+ }
+
+
+ .doctorHeadercon{
+   margin-top: 2%;
  }

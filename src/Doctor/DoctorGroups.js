@@ -39,8 +39,8 @@ class DoctorGroups extends Component {
 
     render() {
       return (
+              <div className="container" >
             <div className="headercon">
-                <div className="container" >
                     <form onSubmit={this.handleSubmit.bind(this)} onChange={this.validate.bind(this)} >
                         <div className="headercon">
                             <div className="row">

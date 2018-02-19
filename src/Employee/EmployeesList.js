@@ -62,7 +62,8 @@ class EmployeesList extends Component {
 
     render() {
         return (
-            <div className="empListContainer" style={{ marginTop: '1%' }}>
+            <div className="container">
+            <div className="headercon" >
                 <div className="headercon">
                     <div className="row">
                         <div className="col-md-12">
@@ -145,6 +146,7 @@ class EmployeesList extends Component {
                         </div>
                 }
 
+            </div>
             </div>
 
         )

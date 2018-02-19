@@ -58,7 +58,7 @@ class ClientsList extends Component {
 
     render() {
         return (
-            <div className="clientListContainer">
+            <div className="container">
                 <div className="headercon">
                     <div className="row">
                         <div className="col-md-12">

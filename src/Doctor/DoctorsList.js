@@ -26,6 +26,7 @@ class DoctorsList extends Component {
         this.getDoctorsList(this.state.currentPage, this.state.sizePerPage);
     }
 
+
     getDoctorsList(page, count) {
         this.setState({ IsDataAvailable: false });
         var url = ApiUrl + "/api/Doctors/GetDoctorsList?authId=" + this.state.authId +
@@ -54,7 +55,7 @@ class DoctorsList extends Component {
 
     render() {
         return (
-            <div className="doctorsListContainer" >
+            <div className="container">
                 <div className="headercon">
                     <div className="row">
                         <div className="col-md-12">
