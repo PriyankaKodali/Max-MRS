@@ -21,7 +21,7 @@ class ClientsList extends Component {
             email: "",
             fax: '',
             phone: '',
-            clientType: '',
+            ClientType: "",
             sortCol: 'Name',
             sortDir: 'asc'
 
@@ -37,7 +37,7 @@ class ClientsList extends Component {
         var url = ApiUrl + "/api/Client/GetAllClients?name=" + this.state.name +
             "&phone=" + this.state.phone +
             "&email=" + this.state.email +
-            "&clientType=" + this.state.clientType +
+            "&clientType=" + this.state.ClientType +
             "&fax=" + this.state.fax +
             "&page=" + page +
             "&count=" + count +
@@ -96,7 +96,13 @@ class ClientsList extends Component {
                             </div>
 
                             <div className="col-md-2 form-group">
-                                <input className="col-md-3 form-control" type="text" name="clientType" placeholder="Client Type" autoComplete="off" ref="clienttype" onChange={this.SearchClick.bind(this)} />
+                                {/* <input className="col-md-3 form-control" type="text" name="clientType" placeholder="Client Type" autoComplete="off" ref="clienttype" onChange={this.SearchClick.bind(this)} />  */}
+                                <Select name="ClientType" placeholder="Client Type" value={this.state.ClientType}
+                                    options={[{ value: 'Direct Client', label: 'Direct Client' },
+                                    { value: 'Indirect Client', label: 'Indirect Client' },
+                                    { value: 'Vendor', label: 'Vendor' }]}
+                                    onChange={this.clientTypeChanged.bind(this)}
+                                />
                             </div>
 
                             <div className="col-md-2 button-block text-center">
@@ -141,15 +147,27 @@ class ClientsList extends Component {
         )
     }
 
+    clientTypeChanged(val) {
+        this.setState({ ClientType: val || ''}, () => {
+            this.SearchClick();
+        })
+    }
+
     SearchClick() {
         this.setState({
             name: this.refs.clientName.value,
             email: this.refs.email.value,
             phone: this.refs.phoneNum.value,
             fax: this.refs.fax.value,
-            clientType: this.refs.clienttype.value
+            ClientType: this.state.ClientType.value
         }, () => {
-            this.getClientsList(this.state.currentPage, this.state.sizePerPage);
+            if (this.state.ClientType != undefined) {
+                this.getClientsList(this.state.currentPage, this.state.sizePerPage);
+            }
+            else {
+                this.state.ClientType = "";
+                this.getClientsList(this.state.currentPage, this.state.sizePerPage);
+            }
         })
     }
 
@@ -158,13 +176,13 @@ class ClientsList extends Component {
         this.refs.email.value = "";
         this.refs.phoneNum.value = "";
         this.refs.fax.value = "";
-        this.refs.clienttype.value = "";
+        this.state.ClientType = "";
         this.setState({
             name: this.refs.clientName.value,
             email: this.refs.email.value,
             phone: this.refs.phoneNum.value,
             fax: this.refs.fax.value,
-            clientType: this.refs.clienttype.value
+            clientType: this.state.ClientType
         }, () => {
             this.getClientsList(this.state.currentPage, this.state.sizePerPage);
         })

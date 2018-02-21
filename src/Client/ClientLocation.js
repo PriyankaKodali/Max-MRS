@@ -54,9 +54,9 @@ class ClientLocation extends Component {
     render() {
 
         return (
-            <div>
+            <div key={this.state.ClientLocation}>
                 <form >
-                   <input type="hidden" ref="locationId" value={this.state.LocationId} />
+                    <input type="hidden" ref="locationId" value={this.state.LocationId} />
                     <div className="col-xs-12">
                         <div className="col-md-6">
                             <label>Address Line 1 </label>
@@ -156,8 +156,14 @@ class ClientLocation extends Component {
                             </div>
                         </div>
 
-                        <div className="col-xs-3" className="checkboxes col-xs-3" style={{ marginTop: '2.5%' }}>
-                            <label> <input className="form-group" type="checkbox" name="isInvoice" ref="isInvoice" style={{ width: '18px', height: '18px' }} value={this.state.IsInvoice} onChange={this.isInvoiceChanged.bind(this)} defaultChecked={this.props.location["IsInvoice"]} /> <span />  IsInvoice </label>
+                        <div className="col-xs-3" style={{ marginTop: '2.8%' }}>
+                            {/* <input className="form-group invoiceChkBox" type="checkbox" name="isInvoice" ref="isInvoice" value={this.state.IsInvoice} onChange={this.isInvoiceChanged.bind(this)} defaultChecked={this.props.location["IsInvoice"]} /> <span />
+                              <label>  IsInvoice </label>   */}
+                         
+                            <label className="chkBox">IsInvoice
+                                  <input type="checkbox" name="isInvoice" ref="isInvoice" value={this.state.IsInvoice} onChange={this.isInvoiceChanged.bind(this)} defaultChecked={this.props.location["IsInvoice"]} />
+                                <span className="checkmark"></span>
+                            </label>
                         </div>
                     </div>
                 </form>
@@ -229,16 +235,21 @@ class ClientLocation extends Component {
 
     isInvoiceChanged() {
         this.props.InvoiceChanged(this.refs.isInvoice)
-        this.setState({ IsInvoice: !this.props.location["IsInvoice"] })
+        if (this.props.ClientId != undefined) {
+            this.setState({ IsInvoice: !this.props.location["IsInvoice"] })
+        }
+        else {
+            this.setState({ IsInvoice: !this.state.IsInvoice })
+        }
     }
 
 
-     // if (this.props.location["LocationId"] == "") {
-        //     <input type="hidden" name="locationId" ref="locationId" value={this.state.newLoc.length} />
-        // }
-        // else {
-        //     <input type="hidden" ref="locationId" value={this.props.location["LocationId"]} />
-        // }
+    // if (this.props.location["LocationId"] == "") {
+    //     <input type="hidden" name="locationId" ref="locationId" value={this.state.newLoc.length} />
+    // }
+    // else {
+    //     <input type="hidden" ref="locationId" value={this.props.location["LocationId"]} />
+    // }
 
 }
 

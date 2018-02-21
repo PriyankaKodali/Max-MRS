@@ -15,10 +15,10 @@ class DoctorsList extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            currentPage: 1, sizePerPage: 10, dataTotalSize: 0,searchClick: false,
-            DoctorsList: [], authId: '',  Client: '', Name: '',  Email: '',
-            PhoneNumber: '', JobLevel: '', VoiceGrade: '', sortCol: 'Name',
-            sortDir: 'asc',  IsDataAvailable: false
+            currentPage: 1, sizePerPage: 10, dataTotalSize: 0, searchClick: false,
+            DoctorsList: [], authId: '', Client: '', Name: '', Email: '',
+            PhoneNumber: '', JobLevel: "", VoiceGrade: '', sortCol: 'Name',
+            sortDir: 'asc', IsDataAvailable: false
         }
     }
 
@@ -92,9 +92,9 @@ class DoctorsList extends Component {
                             </div>
 
                             <div className="col-md-2 form-group">
-                                 <input className="col-md-2 form-control" type="text" name="joblevel" placeholder="Job Level" autoComplete="off" ref="jobLevel" onChange={this.SearchClick.bind(this)} /> 
-                                {/* <Select className="col-md-2 form-control" value={this.state.JobLevel} placeholder="Job Level"
-                                    options={[{ value: 'L1', label: 'L1' }, { value: 'L1-L3', label: 'L1-L3' }, { value: 'L1-L2-L3', label: 'L1-L2-L3' }]} onChange={this.jobLevelChanged.bind(this)} /> */}
+                                {/* <input className="col-md-2 form-control" type="text" name="joblevel" placeholder="Job Level" autoComplete="off" ref="jobLevel" onChange={this.SearchClick.bind(this)} />  */}
+                                <Select className="col-md-2 form-control" value={this.state.JobLevel} placeholder="Job Level"
+                                    options={[{ value: 'L1', label: 'L1' }, { value: 'L1-L3', label: 'L1-L3' }, { value: 'L1-L2-L3', label: 'L1-L2-L3' }]} onChange={this.jobLevelChanged.bind(this)} />
                             </div>
 
                             <div className="col-md-1 form-group">
@@ -136,7 +136,7 @@ class DoctorsList extends Component {
                                 <TableHeaderColumn dataField="PrimaryPhone" dataAlign="left" dataSort={true} width="19" >Phone</TableHeaderColumn>
                                 <TableHeaderColumn dataField="JobLevel" dataAlign="left" dataSort={true} width="15" >Job Level</TableHeaderColumn>
                                 <TableHeaderColumn dataField="VoiceGrade" dataAlign="center" dataSort={true} width="12" >Voice Grade</TableHeaderColumn>
-                                <TableHeaderColumn  columnClassName="edit" dataField="Edit" dataAlign="center" width="18" dataFormat={this.editDataFormatter.bind(this)} ></TableHeaderColumn>
+                                <TableHeaderColumn columnClassName="edit" dataField="Edit" dataAlign="center" width="18" dataFormat={this.editDataFormatter.bind(this)} ></TableHeaderColumn>
                             </BootstrapTable>
                         </div>
                 }
@@ -146,7 +146,7 @@ class DoctorsList extends Component {
     }
 
     jobLevelChanged(val) {
-        this.setState({ JobLevel: val || ''}, () => {
+        this.setState({ JobLevel: val || '' }, () => {
             this.SearchClick();
         });
     }
@@ -162,7 +162,7 @@ class DoctorsList extends Component {
         this.refs.clientName.value = "";
         this.refs.email.value = "";
         this.refs.phoneNum.value = "";
-        this.refs.jobLevel.value = "";
+        this.state.JobLevel = "";
         this.refs.voiceGrade.value = "";
 
         this.setState({
@@ -170,7 +170,7 @@ class DoctorsList extends Component {
             Client: this.refs.clientName.value,
             Email: this.refs.email.value,
             PhoneNumber: this.refs.phoneNum.value,
-            JobLevel: this.refs.jobLevel.value,
+            JobLevel: this.state.JobLevel,
             VoiceGrade: this.refs.voiceGrade.value
         }, () => {
             this.getDoctorsList(this.state.currentPage, this.state.sizePerPage);
@@ -184,17 +184,24 @@ class DoctorsList extends Component {
             Client: this.refs.clientName.value,
             Email: this.refs.email.value,
             PhoneNumber: this.refs.phoneNum.value,
-            JobLevel: this.refs.jobLevel.value,
+            JobLevel: this.state.JobLevel.value,
             VoiceGrade: this.refs.voiceGrade.value
         }, () => {
-            this.getDoctorsList(this.state.currentPage, this.state.sizePerPage);
+            if (this.state.JobLevel != undefined) {
+                this.getDoctorsList(this.state.currentPage, this.state.sizePerPage);
+            }
+            else{
+                this.state.JobLevel="";
+                 this.getDoctorsList(this.state.currentPage, this.state.sizePerPage);
+            }
+
         })
     }
 
     editDataFormatter(cell, row) {
         return (
             <a>
-            <i className='glyphicon glyphicon-edit' style={{ fontSize: '18px', cursor: 'pointer' }} onClick={() => this.props.history.push("/Doctor/" + row["Id"])} ></i>
+                <i className='glyphicon glyphicon-edit' style={{ fontSize: '18px', cursor: 'pointer' }} onClick={() => this.props.history.push("/Doctor/" + row["Id"])} ></i>
             </a>
         )
     }

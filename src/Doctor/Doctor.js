@@ -6,6 +6,7 @@ import { showErrorsForInput, setUnTouched, ValidateForm } from '.././Validation'
 import { ApiUrl } from '../Config';
 import { MyAjaxForAttachments, MyAjax } from '../MyAjax'
 import Select from 'react-select';
+import './Doctors.css';
 
 
 class Doctor extends Component {
@@ -71,9 +72,13 @@ class Doctor extends Component {
         setUnTouched(document);
     }
 
+    componentDidUpdate(){
+        setUnTouched(document);
+    }
+
     render() {
         return (
-            <div className="headercon" key={this.state.Doctor}>
+            <div className="doctorHeadercon" key={this.state.Doctor}>
                 <div className="doctorContainer">
                     <div className="col-xs-12 headerstyle" >
                         <h3 className="col-xs-11 Empheading" style={{ paddingLeft: '10px' }}>Personal Details</h3>
@@ -190,17 +195,22 @@ class Doctor extends Component {
                         {this.props.match.params["id"] != null ?
 
                             <div className="col-xs-12">
-                                <div className="col-xs-2">
-                                    <label> <input className="form-group activeCheckboxes" type="checkbox" name="isActive" ref="isActive" value={this.state.IsActive} onChange={this.isActiveChanged.bind(this)} defaultChecked={this.state.Doctor["IsActive"]} /> <span />  IsActive</label>
-                                </div></div>
+                                <div className="col-xs-2" >
+                                    {/* <div className="checkbox checkbox-success">
+                                        <input className="form-group" id="checkbox2" type="checkbox" name="isActive" ref="isActive" value={this.state.IsActive} onChange={this.isActiveChanged.bind(this)} defaultChecked={this.state.Doctor["IsActive"]} />
+                                        <label for="checkbox2">  Active</label>
+                                    </div> */}
+                                    
+                            <label className="chkBox">Active
+                                  <input  type="checkbox" name="isActive" ref="isActive" value={this.state.IsActive} onChange={this.isActiveChanged.bind(this)} defaultChecked={this.state.Doctor["IsActive"]} />
+                                <span className="checkmark"></span>
+                            </label>
+                                </div>
+                            </div>
                             :
                             <div />
 
                         }
-
-                        <div className="col-xs-12">
-
-                        </div>
 
                         <div className="col-xs-12">
                             <h3 className="col-xs-12 Empheading">Address Details</h3>
@@ -328,7 +338,6 @@ class Doctor extends Component {
                                         onChange={this.JobLevelChanged.bind(this)} />
                                 </div>
                             </div>
-
                         </div>
 
                         <div className="col-xs-12">
@@ -341,11 +350,10 @@ class Doctor extends Component {
                                         onChange={this.VoiceGradeChanged.bind(this)} />
                                 </div>
                             </div>
-
                             <div className="col-xs-3">
                                 <label> Macro Percent</label>
                                 <div className="form-group">
-                                    <input className="form-control" name="MacroPercent" type="number" ref="macroPercent" defaultValue={this.state.Doctor["MacroPercent"]} />
+                                    <input className="form-control" name="MacroPercent" type="number" ref="macroPercent" min="0" defaultValue={this.state.Doctor["MacroPercent"]} />
                                 </div>
                             </div>
                             <div className="col-xs-3">
@@ -365,9 +373,8 @@ class Doctor extends Component {
                         </div>
 
                         <div className="col-xs-12">
-                            <div className="loader loaderActivity" style={{ marginLeft: '45%', marginBottom: '8px' }}></div>
-                            <button type="submit" style={{ marginLeft: '45%' }} name="submit" className="btn btn-md btn-success" > Submit </button>
-
+                            <div className="loader loaderActivity docSubmit" ></div>
+                            <button className="btn btn-md btn-success docSubmit" type="submit"  name="submit"  > Submit </button>
                         </div>
                     </form>
                 </div>
@@ -461,11 +468,11 @@ class Doctor extends Component {
         })
 
         if (!this.validate(e)) {
-            $(".loaderActivity").show();
-            $("button[name='submit']").hide();
+            $(".loaderActivity").hide();
+            $("button[name='submit']").show();
             return;
         }
-        
+
         var data = new FormData();
 
         data.append("salutation", this.refs.salutation.value);

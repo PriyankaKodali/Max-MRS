@@ -217,7 +217,7 @@ class EmployeeRegistration extends Component {
                         <div className="col-xs-12">
 
                             <div className="col-md-4">
-                                <label>Date of birth </label> (For eg: "3/30/2000")
+                                <label>Date of birth </label> (For eg: 3/30/2000)
                                 <div className="form-group">
                                     <div className="input-group">
                                         <span className="input-group-addon">
@@ -246,7 +246,7 @@ class EmployeeRegistration extends Component {
 
 
                             <div className="col-sm-3">
-                                <label>Aadhar </label>
+                                <label>Aadhar </label>  ( For eg: 232333323232)
                                 <div className="form-group">
                                     <div className="input-group">
                                         <span className="input-group-addon">
@@ -258,7 +258,7 @@ class EmployeeRegistration extends Component {
                             </div>
 
                             <div className="col-sm-3">
-                                <label>Pan ( For Eg: ASDFG7654H)</label>
+                                <label>Pan </label> ( For Eg: ASDFG7654H)
                                 <div className="form-group">
                                     <div className="input-group">
                                         <span className="input-group-addon">
@@ -373,7 +373,7 @@ class EmployeeRegistration extends Component {
                                 <div className="col-xs-3">
                                     <label> Provisional Period(Months) </label>
                                     <div className="form-group">
-                                        <input className="form-control" type="number" name="provisional period" defaultValue={this.state.Employee["ProvisionalPeriod"]} placeholder="Provisional Period" ref="provisionalPeriod" autoComplete="off" min="0" />
+                                        <input className="form-control" type="number" name="provisional period" defaultValue={this.state.Employee["ProvisionalPeriod"]} min='0' placeholder="Provisional Period" ref="provisionalPeriod" autoComplete="off" min="0" />
                                     </div>
                                 </div>
 
@@ -445,8 +445,8 @@ class EmployeeRegistration extends Component {
                             </div>
 
                             <div className="col-xs-12" >
-                                <div className="loader loaderActivity" style={{ marginLeft: '45%', marginBottom: '8px' }}></div>
-                                <button type="submit" name="submit" className="btn btn-success btnSave" > Submit </button>
+                                <div className="loader loaderActivity btnSave" ></div>
+                                <button type="submit" name="submit" className="btn btn-success btnSave"  > Submit </button>
                             </div>
 
                         </div>

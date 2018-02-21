@@ -20,8 +20,8 @@ class ClientRegistration extends Component {
             ClientVerticals: [], ClientVertical: '', Countries: [], Country: '', States: [], State: '',
             Cities: [], City: '', TimeZone: null, TimeZones: null, AddClientAddressClick: true, LocationCount: 0,
             ClientLocations: ClientLocations, ClientLocationRefs: [], PaymentType: null, Currency: null,
-            ClientType: '', removeSelected: true, IsVendor: false, ClientId: null, Client: [], ClientLoc: [],
-            IsActive: true,
+            ClientType: "", removeSelected: true, IsVendor: false, ClientId: null, Client: [], ClientLoc: [],
+            IsActive: true, IsInvoice: true
         }
     }
 
@@ -75,7 +75,7 @@ class ClientRegistration extends Component {
 
     render() {
         return (
-            <div className="headercon" key={this.state.Client}>
+            <div className="clientHeadercon" key={this.state.Client}>
                 <div className="clientContainer" >
                     <div className="col-xs-12 headerstyle" >
                         <h3 className="col-xs-11 Empheading" style={{ paddingLeft: '10px' }}>General Details</h3>
@@ -173,10 +173,9 @@ class ClientRegistration extends Component {
                                             <span className="glyphicon glyphicon-group-chat"></span>
                                         </span>
                                         <Select className="form-control" name="clienttype" ref="clienttype" placeholder="select client type" value={this.state.ClientType}
-                                            options={[{ value: 'Direct', label: 'Direct' }, { value: 'Indirect', label: 'Indirect' }, { value: 'Vendor', label: 'Vendor' }]}
+                                            options={[{ value: 'Direct Client', label: 'Direct Client' }, { value: 'Indirect Client', label: 'Indirect Client' }, { value: 'Vendor', label: 'Vendor' }]}
                                             onChange={this.ClientTypeChanged.bind(this)}
                                         />
-
                                     </div>
                                 </div>
                             </div>
@@ -204,8 +203,15 @@ class ClientRegistration extends Component {
                                             </div>
                                         </div>
 
+                                        {/* <div className="col-xs-2" style={{ marginTop: '2.5%' }}>
+                                             <input className="form-group activeCheckboxes" type="checkbox" name="isActive" ref="isActive" value={this.state.IsActive} onChange={this.isActiveChanged.bind(this)} defaultChecked={this.state.Client["IsActive"]} /> <span /> <label> Active</label>
+                                        </div>  */}
+
                                         <div className="col-xs-2" style={{ marginTop: '2.5%' }}>
-                                            <label> <input className="form-group activeCheckboxes" type="checkbox" name="isActive" ref="isActive" value={this.state.IsActive} onChange={this.isActiveChanged.bind(this)} defaultChecked={this.state.Client["IsActive"]} /> <span />  IsActive</label>
+                                            <label className="chkBox">Active
+                                                 <input type="checkbox" name="isInvoice" name="isActive" ref="isActive" value={this.state.IsActive} onChange={this.isActiveChanged.bind(this)} defaultChecked={this.state.Client["IsActive"]} />
+                                                <span className="checkmark"></span>
+                                            </label>
                                         </div>
 
                                     </div>
@@ -250,7 +256,7 @@ class ClientRegistration extends Component {
                             )
                         }
                         {
-                            this.state.IsVendor || this.state.ClientType == "Vendor" ?
+                            this.state.ClientType.value == "Vendor" ?
 
                                 <div />
                                 :
@@ -302,7 +308,8 @@ class ClientRegistration extends Component {
 
                         }
                         <div className="col-xs-12">
-                            <button type="submit" style={{ marginLeft: '45%' }} name="submit" className="btn btn-md btn-success"  > Save </button>
+                            <div className="loader loaderActivity submit" ></div>
+                            <button className="submit" type="submit" style={{ marginLeft: '45%', marginBottom: '8px' }} name="submit" className="btn btn-md btn-success"  > Save </button>
                         </div>
                     </form>
                 </div>
@@ -342,14 +349,21 @@ class ClientRegistration extends Component {
     }
 
     ClientTypeChanged(val) {
-        this.setState({ ClientType: val });
+        this.setState({ ClientType: val || '' }, () => {
+            if (this.state.ClientType.value == "Vendor") {
+                this.state.IsVendor = true
+            }
+            else {
+                this.state.IsVendor = false;
+            }
+        });
 
-        if (val.value == "Vendor") {
-            this.state.IsVendor = true
-        }
-        else {
-            this.state.IsVendor = false;
-        }
+        // if (val.value == "Vendor") {
+        //     this.state.IsVendor = true
+        // }
+        // else {
+        //     this.state.IsVendor = false;
+        // }
         showErrorsForInput(this.refs.clienttype.wrapper, null)
     }
 
@@ -380,30 +394,28 @@ class ClientRegistration extends Component {
         var clientLocationRefs = this.state.ClientLocationRefs;
         var clientloc = [];
 
-        //  var clientVerticals = []
-        //  this.state.ClientVertical.map(ele,i)
-        //  clientVerticals.push(this.state.ClientVertical);
-        //  console.log(clientVerticals);
-
-        var clientLocs = clientloc;
+        //  var clientLocs = clientloc;
 
         clientLocationRefs.map((ele, i) => {
-            
             var location = {
                 locationId: clientLocationRefs[i].refs.locationId.value,
                 addressLine1: clientLocationRefs[i].refs.addressLine1.value.trim(),
                 addressLine2: clientLocationRefs[i].refs.addressLine2.value.trim(),
                 landMark: clientLocationRefs[i].refs.landmark.value.trim(),
-                country:  clientLocationRefs[i].state.Country.value,
+                country: clientLocationRefs[i].state.Country.value,
                 state: clientLocationRefs[i].state.State.value,
                 city: clientLocationRefs[i].state.City.value,
                 zip: clientLocationRefs[i].refs.zip.value,
                 timeZone: clientLocationRefs[i].state.TimeZone.value,
-                isInvoice: clientLocationRefs[i].refs.isInvoice.value
+                isInvoice: clientLocationRefs[i].refs.isInvoice.checked
             }
             clientloc.push(location);
         })
 
+        console.log(clientLocationRefs);
+
+        $(".loaderActivity").show();
+        $("button[name='submit']").hide();
 
         $(e.currentTarget.getElementsByClassName('form-control')).map((i, ele) => {
             ele.classList.remove("un-touched");
@@ -411,6 +423,8 @@ class ClientRegistration extends Component {
         })
 
         if (!this.validate(e)) {
+            $(".loaderActivity").hide();
+            $("button[name='submit']").show();
             return;
         }
 
@@ -515,7 +529,7 @@ class ClientRegistration extends Component {
                 success = false;
                 showErrorsForInput(clientLocationRefs[i].refs.addressLine1, ["Address Line 1 should not be empty"]);
             }
-            if ( !clientLocationRefs[i].state.Country || !clientLocationRefs[i].state.Country.value) {
+            if (!clientLocationRefs[i].state.Country || !clientLocationRefs[i].state.Country.value) {
                 success = false;
                 showErrorsForInput(clientLocationRefs[i].refs.country.wrapper, ["Select a Country"]);
             }

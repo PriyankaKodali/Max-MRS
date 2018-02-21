@@ -1,4 +1,4 @@
-.headerCon{
+.EmpheaderCon{
     margin-top:51px;  
 }
 
@@ -58,6 +58,7 @@
 }
 .btnSave{
     margin-left: 50%;
+    margin-bottom: 8px;
 }
 .btnPayscaleSubmit{
     margin-left: 50%;
