@@ -75,7 +75,7 @@ class EmployeeDocuments extends Component {
                     <div className="col-md-12">
                         <h3 className="col-md-11 formheader" style={{ paddingLeft: '20px', marginTop: '1%' }}> Documents</h3>
                         <div className="col-md-1 mybutton" style={{ marginTop: '1%' }}  >
-                            <button type="button" className="btn btn-default pull-left headerbtn" data-toggle="modal" data-target="#myModal">
+                            <button type="button" className="btn btn-default pull-left headerbtn" data-toggle="modal" data-target="#documentModal" onClick={this.openModel.bind(this)}>
                                 <span className="glyphicon glyphicon-plus"></span>
                             </button>
                         </div>
@@ -143,8 +143,8 @@ class EmployeeDocuments extends Component {
 
                 <form onSubmit={this.handleSubmit.bind(this)} onChange={this.validate.bind(this)}  >
 
-                    <div className="modal fade" id="myModal" role="dialog">
-                        <div className="modal-dialog modal-lg">
+                    <div className="modal fade" id="documentModal" role="dialog">
+                        <div className="modal-dialog modal-lg" style={{ width: '780px'}}>
                             <div className="modal-content">
                                 <div className="modal-header formheader" style={{ paddingLeft: '20px' }}>
                                     <button type="button" className="close btnClose" data-dismiss="modal" id="closeModal"> &times; </button>
@@ -154,28 +154,28 @@ class EmployeeDocuments extends Component {
                                     <div className="modal-body col-xs-12">
                                         <div className="col-md-4 form-group">
                                             <label> Document</label>
-                                            <input className="form-control" type="file" name="files" ref="document" autocomplete="off" />
+                                            <input className="form-control" type="file" name="files" ref="document" autoComplete="off" />
                                         </div>
 
                                         <div className="col-md-4 form-group">
                                             <label> Category </label>
-                                            <input className="form-control" type="text" name="Category" ref="category" autocomplete="off" />
+                                            <input className="form-control" type="text" name="Category" ref="category" autoComplete="off" />
                                         </div>
 
                                         <div className="col-md-4 form-group">
                                             <label> Document Date</label>
-                                            <input className="form-control" type="date" name="documentdate" ref="documentdate" autocomplete="off" />
+                                            <input className="form-control" type="date" name="documentdate" ref="documentdate" autoComplete="off" />
                                         </div>
 
                                         <div className="col-xs-12">
                                             <div className="col-md-3 form-group">
                                                 <label> Key Words </label>
-                                                <input className="form-control" type="text" name="keywords" ref="keywords" autocomplete="off" />
+                                                <input className="form-control" type="text" name="keywords" ref="keywords" autoComplete="off" />
                                             </div>
 
                                             <div className="col-md-8 form-group">
                                                 <label>Notes</label>
-                                                <input className="form-control" type="text" name="nptes" ref="notes" autocomplete="off" />
+                                                <input className="form-control" type="text" name="nptes" ref="notes" autoComplete="off" />
                                             </div>
                                         </div>
 
@@ -199,12 +199,18 @@ class EmployeeDocuments extends Component {
 
         )
     }
+
+
     DocDateFormatter(cell, row) {
         return <p > {moment(row["DocumentDate"]).format("DD-MM-YYYY")} </p>
     }
 
     UploadDateFormatter(cell, row) {
         return <p> {moment(row["UploadDate"]).format("DD-MM-YYYY")}</p>
+    }
+
+    openModel(){
+        $("#documentModal").modal("show");
     }
    
     RemoveInputs() {

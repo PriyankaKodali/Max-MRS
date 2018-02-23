@@ -26,7 +26,7 @@ class ClientEmployee extends Component {
     render() {
         return (
             <div>
-                <div className="headercon">
+                <div className="clntEmpheadercon">
                     <div className="row">
                         <div className="col-md-12">
                             <h3 className="col-md-11 formheader"> Client Employee </h3>

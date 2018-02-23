@@ -7,14 +7,6 @@
        color: white;
    }
 
-   /* .formSearch
-  {
-    padding:10px 0;
-    box-sizing: border-box; 
-    background-color: lightgray;
-    margin-bottom: 10px;
-    height: 145px;
- } */
  .react-datepicker-wrapper,.react-datepicker__input-container{
      width: 100%;
  }
@@ -48,4 +40,7 @@
   position: absolute;
   margin-left:8%;
   margin-right: 8%;
+}
+.clntEmpheadercon{
+margin-top: 3.5%;
 }
