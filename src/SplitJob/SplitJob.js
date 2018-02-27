@@ -50,7 +50,7 @@ class SplitJob extends Component {
         var uiItems = this.state.uiItems
 
         //this.state.uiItems = [];
-        
+
         var totalpages = this.refs.noofpages.value;
         this.state.startPage = 1;
         this.state.result = 0;
@@ -159,15 +159,15 @@ class SplitJob extends Component {
     render() {
         return (
             <div className="container" style={{ fontSize: '12px', paddingLeft: '0px' }}>
-                <div className="modalExample" id="myModal" data-show role="dialog"  >
-                    <div className="modal-dialog" style={{ zIndex: '2000' }}>
+                <div className="modalExample" tabindex="-1" role="dialog" id="myModal" aria-hidden="true" >
+                    <div className="modal-dialog" style={{ zIndex: '2000', maxHeight:'85%',  marginTop: '1.5%', marginBottom:'50px' }}>
                         <div className="modal-content">
                             <div className="modal-header formheader" >
                                 <button type="button" className="close btnClose" data-dismiss="modal" id="closeModal" onClick={this.CloseClick.bind(this)}> &times; </button>
                                 <h4 className="modal-title">Split Job</h4>
                             </div>
 
-                            <div className="modal-body col-sm-12 mx-auto">
+                            <div className="modal-body col-sm-12 mx-auto" style={{overflowY: 'scroll'}}>
 
                                 <div className="col-xs-2 form-group">
                                     <input type="text" id="name" className="form-control" name="JobNumber" ref="jobnumber" required />

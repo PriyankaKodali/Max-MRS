@@ -169,8 +169,24 @@ var constraints = {
     },
     Category: {
         presence: true
+    },
+    OldPassword: {
+        presence: true
+    },
+    NewPassword: {
+        presence: true,
+        length: {
+            minimum: 8,
+            message: 'New password must be at least 8 characters'
+        }
+    },
+    ConfirmPassword: {
+        presence: true,
+        length: {
+            minimum: 8,
+            message: 'Confirm password must be at least 8 characters'
+        }
     }
-
 }
 
 validate.validators.presence.message = "is required";

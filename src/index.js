@@ -4,11 +4,12 @@ import './index.css';
 import App from './App';
 import registerServiceWorker from './registerServiceWorker';
 import Login from './Login/Login';
+import ChangePassword from './ChangePassword/ChangePassword';
 import './Login/Login.css';
 import 'bootstrap/dist/css/bootstrap-theme.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import EmployeeRegistration from './Employee/EmployeeRegistration';
-import ClientEmployee from './ClientEmployee/ClientEmployee';
+import ClientEmployeeDashboard from './ClientEmployeeDashboard/ClientEmployeeDashboard';
 import Coordinator from './Coordinator/Coordinator';
 import Employee from './Employee/EmployeeDashboard';
 import ClientEmpRegistration from './ClientEmpRegistration/ClientEmpRegistration';
@@ -48,7 +49,10 @@ ReactDOM.render((
             <ToastContainer autoClose={3000} position="top-center" />
             <App>
                 <Route exact path='/' component={Login} />
-                <Route exact path='/ClientEmployee' component={ClientEmployee} />
+
+                
+                <Route excact path="/ChangePassword" component={ChangePassword} />
+                <Route exact path='/ClientEmployeeDashboard' component={ClientEmployeeDashboard} />
                 <Route exact path='/Coordinator' component={Coordinator} />
                 <Route exact path='/Employee' component={Employee} />
                 <Route exact path='/AllocateJob' component={AllocateJob} />

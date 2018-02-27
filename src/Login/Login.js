@@ -13,22 +13,19 @@ class Login extends Component {
     constructor(props) {
         super(props);
         this.state = { error: "" };
-        // sessionStorage.removeItem("access_token");
-        // sessionStorage.removeItem("roles");
-        // window.isLoggedIn = false;
     }
 
 
     render() {
         return (
-            <div classNa="container">
+            <div className="container">
                 <div className="wrapper">
                     <form action="" method="post" name="Login_Form" className="form-signin">
                         <div className="row text-center bol">
                             {/* <i className="fa fa-circle"></i> */}
-                            </div>
+                        </div>
                         <h3 className="text-center" >
-                            <img className="logo" src="Images/logo.png"  alt=""/>
+                            <img className="logo" src="Images/logo.png" alt="" />
                         </h3>
 
                         <div className="form-group" style={{ paddingTop: '10px' }}>
@@ -39,18 +36,19 @@ class Login extends Component {
                                 <input className="form-control usrName" type="text" placeholder="Username" name="email" autoComplete="off" ref="username" />
                             </div>
                         </div>
-                        
+
                         <div className="form-group" style={{ paddingTop: '20px' }}>
                             <div className="input-group">
                                 <span className="input-group-addon">
                                     <span class="glyphicon glyphicon-lock"></span>
                                 </span>
-                                <input type="password" className="form-control usrName" name="Password" placeholder="Password" required="" ref="password"  />
+                                <input type="password" className="form-control usrName" name="Password" placeholder="Password" required="" ref="password" />
                             </div>
                         </div>
-                        <button className="btn btn-md btn-primary btn-block" name="Submit" value="Login" type="Submit"  onClick={this.handleSubmit.bind(this)}>Login</button>
 
-                        <div style={{ marginTop: '18px' }}>
+                        <button className="btn btn-md btn-primary btn-block" name="submit" value="Login" type="submit" onClick={this.handleSubmit.bind(this)}>Login</button>
+                         <div className="loader loaderActivity btnSave" ></div>
+                        <div style={{ marginTop: '18px' }} >
                             <a href=""> Forget your password? </a>
                         </div>
                     </form>
@@ -59,14 +57,14 @@ class Login extends Component {
         )
     }
 
-      handleSubmit(e) {
+    handleSubmit(e) {
         e.preventDefault();
         toast.dismiss();
-        $(".loader").css("display", "inline-block");
+        $(".loaderActivity").show();
         $("button[name='submit']").hide();
 
         if (!ValidateForm(e)) {
-            $(".loader").hide();
+            $(".loaderActivity").hide();
             $("button[name='submit']").show();
             return false;
         }
@@ -81,16 +79,21 @@ class Login extends Component {
         try {
             $.post(url, data).done(
                 (data) => {
-                     window.isLoggedIn = true;
+                    window.isLoggedIn = true;
                     sessionStorage.setItem("access_token", data["access_token"]);
                     sessionStorage.setItem("roles", data["roles"]);
-                    sessionStorage.setItem("displayName",   data["displayName"]);
-                      sessionStorage.setItem("userName", data["userName"]);
-                    this.props.history.push("/DashBoard");
+                    sessionStorage.setItem("displayName", data["displayName"]);
+                    sessionStorage.setItem("userName", data["userName"]);
+                    if (data["roles"] == "Admin"){
+                        this.props.history.push("/Coordinator");
+                    }
+                    else {
+                           this.props.history.push("/ClientEmployeeDashboard");
+                    }
                 }
             ).fail(
                 (error) => {
-                    $(".loader").hide();
+                    $(".loaderActivity").hide();
                     $("button[name='submit']").show();
                     if (error.responseJSON) {
                         toast(error.responseJSON.error_description, {
@@ -108,14 +111,14 @@ class Login extends Component {
                 }
                 )
 
-                console.log(sessionStorage.getItem("roles"));
+            console.log(sessionStorage.getItem("roles"));
         }
         catch (e) {
             toast("An error occoured, please try again!", {
                 type: toast.TYPE.ERROR,
                 autoClose: false
             });
-            $(".loader").hide();
+            $(".loaderActivity").hide();
             $("button[name='submit']").show();
             return false;
         }

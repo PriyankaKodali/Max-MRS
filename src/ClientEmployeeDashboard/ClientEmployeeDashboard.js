@@ -4,14 +4,14 @@ import Select from 'react-select';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import 'react-bootstrap-table/dist/react-bootstrap-table.min.css';
-import './ClientEmployee.css';
+import './ClientEmployeeDashboard.css';
 
 var moment = require('moment');
 var ReactBSTable = require('react-bootstrap-table');
 var BootstrapTable = ReactBSTable.BootstrapTable;
 var TableHeaderColumn = ReactBSTable.TableHeaderColumn;
 
-class ClientEmployee extends Component {
+class ClientEmployeeDashboard extends Component {
 
     constructor(props) {
         super(props);
@@ -21,6 +21,19 @@ class ClientEmployee extends Component {
             searchClick: false,
             toDate: moment().format("MM/DD/YYYY"),
         }
+    }
+
+
+    componenetWillMount(){
+        var url= "http://localhost:58528/api/Jobs/GetClientEmployeeJobs"
+        $.ajax({
+            url: url,
+            type:"get",
+            success:(data)=>{
+                this.setState({Jobs: data["jobs"]})
+            }
+
+        })
     }
 
     render() {
@@ -73,9 +86,9 @@ class ClientEmployee extends Component {
                                 </div>
 
                                 <div className="col-sm-4 form-group clntEmpButton">
-                                    {/* <div className="col-xs-8 clntEmpButton"> */}
-                                        <button type="button" name="submit" className="btnLeft btn btn-success" > Search </button>
-                                        <button type="button" name="submit" className="btnLeft btn btn-default" > Clear </button>
+                                    {/* <div className="col-xs-8 clntEmpButton"> 
+                                    <button type="button" name="submit" className="btnLeft btn btn-success" > Search </button>*/}
+                                    <button type="button" name="submit" className="btnLeft btn btn-default" > Clear </button>
                                     {/* </div> */}
                                 </div>
                             </form>
@@ -85,7 +98,7 @@ class ClientEmployee extends Component {
 
                 }
 
-                  <button type="button" name="submit" className="btn btn-md btn-success uploadFiles" onClick={() => this.props.history.push("/UploadFiles/")}> Upload Files </button>
+                <button type="button" name="submit" className="btn btn-md btn-success uploadFiles" onClick={() => this.props.history.push("/UploadFiles/")}> Upload Files </button>
 
 
                 <div className="clearfix"> </div>
@@ -108,12 +121,13 @@ class ClientEmployee extends Component {
                         }}
                     >
                         <TableHeaderColumn dataField="Date" isKey={true} width="20" dataAlign="center" dataSort={true} > Date </TableHeaderColumn>
+                        <TableHeaderColumn dataField="JobNum" dataAlign="center" dataSort={true} width="23" > File Name</TableHeaderColumn>
+                        <TableHeaderColumn dataField="Doctor" dataAlign="center" dataSort={true} width="23" > Doctor </TableHeaderColumn>
                         <TableHeaderColumn dataField="JobNum" dataAlign="center" dataSort={true} width="23" > Job Number</TableHeaderColumn>
-                        <TableHeaderColumn dataField="FileName" width="30" dataAlign="center" dataSort={true}> File Name </TableHeaderColumn>
+                        <TableHeaderColumn dataField="totalpages" width="30" dataAlign="center" dataSort={true}>No. of pages </TableHeaderColumn>
                         <TableHeaderColumn dataField="status" width="30" dataAlign="center" dataSort={true}> Status </TableHeaderColumn>
                         <TableHeaderColumn columnClassName="download" dataField='Download' dataFormat={this.downloadFormatter.bind(this)} width='18'></TableHeaderColumn>
                     </BootstrapTable>
-
                 </div>
 
 
@@ -141,4 +155,4 @@ class ClientEmployee extends Component {
 
 }
 
-export default ClientEmployee
+export default ClientEmployeeDashboard

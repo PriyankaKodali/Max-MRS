@@ -124,3 +124,8 @@
      margin-left: 45%;
      margin-bottom: 8px;
 }
+
+
+ .selectDropdown{
+     z-index: 1000px;
+ }
