@@ -40,16 +40,16 @@ class Login extends Component {
                         <div className="form-group" style={{ paddingTop: '20px' }}>
                             <div className="input-group">
                                 <span className="input-group-addon">
-                                    <span class="glyphicon glyphicon-lock"></span>
+                                    <span className="glyphicon glyphicon-lock"></span>
                                 </span>
                                 <input type="password" className="form-control usrName" name="Password" placeholder="Password" required="" ref="password" />
                             </div>
                         </div>
 
                         <button className="btn btn-md btn-primary btn-block" name="submit" value="Login" type="submit" onClick={this.handleSubmit.bind(this)}>Login</button>
-                         <div className="loader loaderActivity btnSave" ></div>
+                        <div className="loader loaderActivity btnSave" ></div>
                         <div style={{ marginTop: '18px' }} >
-                            <a href=""> Forget your password? </a>
+                            <a>  <Link to="/ForgotPassword"> Forget Password? </Link> </a>
                         </div>
                     </form>
                 </div>
@@ -84,11 +84,13 @@ class Login extends Component {
                     sessionStorage.setItem("roles", data["roles"]);
                     sessionStorage.setItem("displayName", data["displayName"]);
                     sessionStorage.setItem("userName", data["userName"]);
-                    if (data["roles"] == "Admin"){
+                    if (data["roles"].indexOf("Admin") != -1) {
                         this.props.history.push("/Coordinator");
+                        return;
                     }
                     else {
-                           this.props.history.push("/ClientEmployeeDashboard");
+                        this.props.history.push("/ClientEmployeeDashboard");
+                        return;
                     }
                 }
             ).fail(
@@ -111,7 +113,7 @@ class Login extends Component {
                 }
                 )
 
-            console.log(sessionStorage.getItem("roles"));
+            console.log(data["roles"]);
         }
         catch (e) {
             toast("An error occoured, please try again!", {

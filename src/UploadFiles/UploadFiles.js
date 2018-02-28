@@ -34,8 +34,7 @@ class UploadFiles extends Component {
         $("#input-id").fileinput({
             theme: "fa",
             hideThumbnailContent: true,
-            uploadUrl: "http://localhost:58528/api/Jobs/GetFilesFromClientEmp?doctorId=" + this.state.Doctor +
-            "&userName=" + sessionStorage.getItem("userName"),
+            uploadUrl: "http://localhost:58528/api/Jobs/AddFilesFromClientEmp",
             uploadAsync: false,
             overwriteInitial: false,
             initialPreviewAsData: true,
@@ -81,19 +80,24 @@ class UploadFiles extends Component {
         );
     }
 
+    onDoctorChanged(val) {
+        this.setState({ Doctor: val })
+    }
+
+    refresh() {
+        this.props.history.push("/ClientEmployeeDashboard");
+    }
+
     uploadFile() {
 
         var data = new FormData();
 
         var files = this.refs.Upldfiles.files;
 
-
         if (this.state.Doctor != null) {
             data.append("Doctor_Id", this.state.Doctor.value);
         }
-        else {
-            this.state.Doctor.value = '';
-        }
+
         for (var i = 0; i < files.length; i++) {
             data.append(files[i].filename, files[i]);
         }
@@ -110,7 +114,8 @@ class UploadFiles extends Component {
                         type: toast.TYPE.SUCCESS
                     });
                     $("button[name='submit']").show();
-                    this.props.history.push("/ClientEmployeeDashboard");
+                    this.refresh();
+
                     return true;
                 },
                 (error) => {
@@ -138,9 +143,6 @@ class UploadFiles extends Component {
     }
 
 
-    onDoctorChanged(val) {
-        this.setState({ Doctor: val })
-    }
 }
 
 export default UploadFiles;

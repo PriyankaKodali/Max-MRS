@@ -12,7 +12,6 @@ class ChangePassword extends Component {
     render() {
         return (
             <div className="container">
-
                 <form action="" method="post" name="Change_Password" className="changePwdForm" onChange={this.validate.bind(this)} onSubmit={this.handleSubmit.bind(this)} >
                     <h3 className="text-center" >
                         <img className="logo" src="Images/logo.png" alt="" />

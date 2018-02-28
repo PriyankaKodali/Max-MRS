@@ -20,7 +20,7 @@ class ClientEmployeesList extends Component {
             currentPage: 1,
             sizePerPage: 10,
             dataTotalSize: 0,
-            FirstName: '',
+            FirstName: "",
             LastName: "",
             Email: "",
             PhoneNumber: "",
@@ -37,7 +37,7 @@ class ClientEmployeesList extends Component {
 
     componentWillMount() {
 
-       $.ajax({
+        $.ajax({
             url: ApiUrl + "/api/MasterData/GetAllClients",
             type: "get",
             success: (data) => { this.setState({ Clients: data["clients"] }) }
@@ -101,15 +101,15 @@ class ClientEmployeesList extends Component {
                                 </div>
 
                                 <div className="col-md-2 form-group">
-                                    <input className="col-md-3 form-control" type="text" name="LastName" placeholder="Last Name" autoComplete="off" ref="lastname"  onChange={this.searchClick.bind(this)}  />
+                                    <input className="col-md-3 form-control" type="text" name="LastName" placeholder="Last Name" autoComplete="off" ref="lastname" onChange={this.searchClick.bind(this)} />
                                 </div>
 
                                 <div className="col-md-2 form-group">
-                                    <input className="col-md-3 form-control" type="text" name="Email" placeholder="Email" autoComplete="off" ref="email"  onChange={this.searchClick.bind(this)}  />
+                                    <input className="col-md-3 form-control" type="text" name="Email" placeholder="Email" autoComplete="off" ref="email" onChange={this.searchClick.bind(this)} />
                                 </div>
 
                                 <div className="col-md-2 form-group">
-                                    <input className="col-md-3 form-control" type="text" name="Department" placeholder="Department" autoComplete="off" ref="department"  onChange={this.searchClick.bind(this)}  />
+                                    <input className="col-md-3 form-control" type="text" name="Department" placeholder="Department" autoComplete="off" ref="department" onChange={this.searchClick.bind(this)} />
                                 </div>
 
                                 <div className="col-md-2 button-block text-center">
@@ -167,15 +167,14 @@ class ClientEmployeesList extends Component {
     editDataFormatter(cell, row) {
         return (
             <a>
-            <i className='glyphicon glyphicon-edit' style={{ cursor:'pointer', fontSize: '18px' }} onClick={() => this.props.history.push("/EditClientEmployee/" + row["Id"])}></i>
-           </a>
+                <i className='glyphicon glyphicon-edit' style={{ cursor: 'pointer', fontSize: '18px' }} onClick={() => this.props.history.push("/EditClientEmployee/" + row["Id"])}></i>
+            </a>
         )
     }
 
-
     ClientChanged(val) {
-        this.setState({ Client: val || '' }, ()=>{
-             this.searchClick();
+        this.setState({ Client: val || '' }, () => {
+            this.searchClick();
         })
     }
 
@@ -188,18 +187,17 @@ class ClientEmployeesList extends Component {
     }
 
     searchClick() {
-         this.setState({
+        this.setState({
             FirstName: this.refs.firstname.value,
             LastName: this.refs.lastname.value,
             Email: this.refs.email.value,
             Client: this.state.Client,
             Department: this.refs.department.value
-        }, ()=>{
+        }, () => {
             this.getClientEmpList(this.state.currentPage, this.state.sizePerPage)
 
         });
-       
-    
+
     }
 
     clearClick() {
@@ -210,8 +208,6 @@ class ClientEmployeesList extends Component {
         this.refs.department.value = "";
         this.getClientEmpList(this.state.currentPage, this.state.sizePerPage);
     }
-
 }
-
 
 export default ClientEmployeesList;

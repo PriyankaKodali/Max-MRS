@@ -17,7 +17,7 @@ class App extends Component {
         sessionStorage.removeItem("access_token");
         sessionStorage.removeItem("roles");
         window.isLoggedIn = false;
-        window.open("/", "_self")
+        window.open("/#/login", "_self")
     }
 
 
@@ -101,7 +101,7 @@ class App extends Component {
 
                                     <ul className="nav navbar-nav navbar-right">
                                         <li className="dropdown">
-                                            <Link to="../ClientEmployeeDashboard" > Dashboard</Link>
+                                            <Link to="/ClientEmployeeDashboard" > Dashboard</Link>
                                         </li>
                                     </ul>
 
@@ -109,7 +109,7 @@ class App extends Component {
                             </div>
                         </div>
                         :
-                       <div />
+                        <div />
                 }
                 {this.props.children}
             </div>

@@ -41,3 +41,16 @@
     max-width: 73px;
     height: 45px;
 }
+
+.submitbtn{
+        margin-left: 38%;
+    margin-top: 5%;
+}
+
+.forgetPwdForm{
+    max-width: 378px;
+    padding: 34px 25px 21px;
+    margin: 0 auto;
+    border: 1px solid #cccccc;
+    margin-top: 10%;
+}

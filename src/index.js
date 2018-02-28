@@ -14,6 +14,8 @@ import Coordinator from './Coordinator/Coordinator';
 import Employee from './Employee/EmployeeDashboard';
 import ClientEmpRegistration from './ClientEmpRegistration/ClientEmpRegistration';
 import ClientRegistration from './Client/ClientRegistration';
+import ForgotPassword from './ForgotPassword/ForgotPassword';
+import ResetPassword from './ResetPassword/ResetPassword';
 
 import AllocateJob from './AllocateJob/AllocateJob';
 import UploadFiles from './UploadFiles/UploadFiles';
@@ -48,14 +50,16 @@ ReactDOM.render((
         <div>
             <ToastContainer autoClose={3000} position="top-center" />
             <App>
-                <Route exact path='/' component={Login} />
+                <Route exact path="/" component={Login} />
+                <Route exact path="/login" component={Login} />
+                <Route exact path="/ForgotPassword" component={ForgotPassword} />
+                <Route exact path="/ChangePassword" component={ChangePassword} />
+                <Route exact path="/reset-password/userId/code" component={ResetPassword} />
 
-                
-                <Route excact path="/ChangePassword" component={ChangePassword} />
-                <Route exact path='/ClientEmployeeDashboard' component={ClientEmployeeDashboard} />
-                <Route exact path='/Coordinator' component={Coordinator} />
-                <Route exact path='/Employee' component={Employee} />
-                <Route exact path='/AllocateJob' component={AllocateJob} />
+                <Route exact path="/ClientEmployeeDashboard" component={ClientEmployeeDashboard} />
+                <Route exact path="/Coordinator" component={Coordinator} />
+                <Route exact path="/Employee" component={Employee} />
+                <Route exact path="/AllocateJob" component={AllocateJob} />
                 <Route exact path="/UploadFiles" component={UploadFiles} />
                 <Route exact path="/SplitJob" component={SplitJob} />
 
@@ -73,7 +77,7 @@ ReactDOM.render((
 
                 <Route exact path="/DoctorsList" component={DoctorsList} />
                 <Route exact path="/DoctorGroups" component={DoctorGroups} />
-        
+
             </App>
         </div>
     </HashRouter>
